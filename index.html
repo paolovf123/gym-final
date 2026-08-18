@@ -315,7 +315,12 @@
   }
   .cat-card:active { transform: scale(.96); }
   .cat-card.added { border-color: var(--accent); }
-  .cat-card img { width: 100%; aspect-ratio: 1/1; object-fit: contain; background: #fff; display: block; }
+  /* Medios del dataset a 180×180: nunca estirar por encima del tamaño nativo */
+  .cat-card .imgbox { display: grid; place-items: center; background: #fff; aspect-ratio: 1/1; }
+  .cat-card .imgbox img {
+    width: 100%; max-width: 180px; aspect-ratio: 1/1; object-fit: contain; display: block;
+    image-rendering: -webkit-optimize-contrast;
+  }
   .cat-card .cc-body { padding: .5rem .6rem .6rem; }
   .cat-card .cc-name { font-size: .78rem; font-weight: 650; line-height: 1.25; display: block; }
   .cat-card .cc-meta { font-size: .66rem; color: var(--muted); display: block; margin-top: .15rem; }
@@ -372,7 +377,11 @@
     color: var(--muted);
   }
   .badge.hl { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
-  .modal-gif { width: 100%; max-width: 300px; margin: .3rem auto; display: block; border-radius: 14px; background: #fff; }
+  .modal-gif {
+    width: min(100%, 240px); margin: .3rem auto; display: block; border-radius: 14px;
+    background: #fff; padding: .5rem; image-rendering: -webkit-optimize-contrast;
+    filter: url(#nitidez) contrast(1.02);
+  }
   .steps { margin: .7rem 0 0; padding-left: 1.2rem; }
   .steps li { margin: .4rem 0; font-size: .89rem; }
   .steps li::marker { color: var(--accent); font-weight: 700; }
@@ -512,6 +521,13 @@
 
 <div id="modal-root"></div>
 <div id="dlg-root"></div>
+
+<!-- Filtro de nitidez suave para los GIF (fuente 180×180 mostrada más grande) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="nitidez">
+    <feConvolveMatrix order="3" preserveAlpha="true" kernelMatrix="0 -0.3 0 -0.3 2.2 -0.3 0 -0.3 0"/>
+  </filter>
+</svg>
 
 <script src="./data/ejercicios.js"></script>
 <script>
@@ -835,7 +851,7 @@ function sideBtns(sel, attr) {
 function catGridHTML(shown) {
   return shown.map(e =>
     '<button class="cat-card" data-open="' + e.id + '">' +
-    '<img loading="lazy" src="' + imgURL(e) + '" alt="">' +
+    '<span class="imgbox"><img loading="lazy" src="' + imgURL(e) + '" alt=""></span>' +
     '<span class="cc-body"><span class="cc-name">' + esc(e.n) + '</span>' +
     '<span class="cc-meta">' + esc(muscNombre(e.t)) + ' · ' + esc(eqNombre(e.eq)) + '</span></span>' +
     '</button>'
@@ -885,7 +901,7 @@ function builderGridHTML(shown) {
     '<div class="cat-card" data-bdadd="' + e.id + '" role="button" tabindex="0" aria-label="Agregar ' + esc(e.n) + '">' +
     '<button class="cc-info" data-open="' + e.id + '" aria-label="Ver detalles de ' + esc(e.n) + '">ⓘ</button>' +
     '<span class="cc-add">＋</span>' +
-    '<img loading="lazy" src="' + imgURL(e) + '" alt="">' +
+    '<span class="imgbox"><img loading="lazy" src="' + imgURL(e) + '" alt=""></span>' +
     '<span class="cc-body"><span class="cc-name">' + esc(e.n) + '</span>' +
     '<span class="cc-meta">' + esc(muscNombre(e.t)) + ' · ' + esc(eqNombre(e.eq)) + '</span></span>' +
     '</div>'
