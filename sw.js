@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE = 'gymfinal-v2';
+const CACHE = 'gymfinal-v3';
 const ASSETS = [
   './',
   './index.html',

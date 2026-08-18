@@ -126,6 +126,21 @@
   .rules li { margin: .34rem 0; font-size: .91rem; }
   .rules li::marker { color: var(--accent); }
 
+  /* ---------- CTA del home ---------- */
+  .cta-row { display: flex; gap: .6rem; margin-top: .9rem; flex-wrap: wrap; }
+  .cta {
+    flex: 1 1 180px; border: 1px solid var(--line); background: var(--soft); color: var(--ink);
+    border-radius: 16px; padding: 1rem; cursor: pointer; text-align: left;
+    transition: transform .15s, border-color .2s; font-family: inherit;
+  }
+  .cta:active { transform: scale(.97); border-color: var(--accent); }
+  .cta b {
+    display: block; font-family: var(--display); font-weight: 400; text-transform: uppercase;
+    font-style: italic; letter-spacing: .07em; font-size: 1.35rem; color: var(--accent);
+  }
+  .cta span { font-size: .8rem; color: var(--muted); }
+  .cta.alt b { color: var(--ink); }
+
   /* ---------- Rutinas ---------- */
   .rut-head { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; margin: .4rem 0 0; }
   .rut-name {
@@ -211,7 +226,7 @@
   .day-head .edit-toggle { margin-left: 0; }
   .empty-day { font-size: .85rem; color: var(--muted); padding: .5rem 0; }
 
-  /* ---------- Crear rutina ---------- */
+  /* ---------- Crear rutina (builder) ---------- */
   .form-row { margin-top: .8rem; }
   .form-row label { display: block; font-size: .78rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); margin-bottom: .35rem; }
   .name-input {
@@ -219,6 +234,65 @@
     border-radius: 12px; padding: .6rem .9rem; font-size: .95rem; font-family: inherit;
   }
   .name-input:focus { outline: 2px solid var(--accent); border-color: transparent; }
+
+  .bd-day-list { list-style: none; margin: .6rem 0 0; padding: 0; }
+  .bd-day-list li { display: flex; align-items: center; gap: .55rem; border-top: 1px solid var(--line); padding: .45rem 0; }
+  .bd-day-list li:first-child { border-top: 0; }
+  .bd-empty { font-size: .84rem; color: var(--muted); background: var(--soft); border-radius: 10px; padding: .6rem .8rem; margin-top: .6rem; }
+  .chip .n { opacity: .7; font-weight: 400; }
+
+  /* ---------- Catálogo (barra lateral) ---------- */
+  .search {
+    width: 100%; background: var(--soft); border: 1px solid var(--line); color: var(--ink);
+    border-radius: 12px; padding: .6rem .9rem; font-size: .95rem; font-family: inherit;
+  }
+  .search:focus { outline: 2px solid var(--accent); border-color: transparent; }
+  .chips { display: flex; gap: .4rem; overflow-x: auto; padding: .6rem .1rem .2rem; scrollbar-width: none; flex-wrap: wrap; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip {
+    flex: none; border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    border-radius: 999px; padding: .32rem .8rem .26rem; cursor: pointer; font-size: .8rem; font-weight: 700;
+    letter-spacing: .04em; transition: background .2s, border-color .2s, color .2s;
+  }
+  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #101014; }
+
+  .split { display: flex; gap: .6rem; align-items: flex-start; margin-top: .7rem; }
+  .side {
+    flex: none; width: 106px; position: sticky; top: 66px; display: flex; flex-direction: column;
+    gap: .3rem; max-height: calc(100vh - 90px); overflow-y: auto;
+  }
+  .side button {
+    text-align: left; border: 1px solid var(--line); background: var(--card); color: var(--muted);
+    border-radius: 10px; padding: .45rem .55rem .38rem; font-size: .74rem; font-weight: 700;
+    letter-spacing: .03em; cursor: pointer; transition: background .2s, color .2s, border-color .2s;
+  }
+  .side button small { display: block; font-weight: 400; font-size: .62rem; opacity: .7; }
+  .side button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #101014; }
+  .split-main { flex: 1; min-width: 0; }
+
+  .cat-count { font-size: .78rem; color: var(--muted); margin: .3rem 0 .4rem; }
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: .6rem; }
+  .cat-card {
+    position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+    cursor: pointer; transition: transform .15s, border-color .2s; text-align: left; padding: 0; color: var(--ink);
+  }
+  .cat-card:active { transform: scale(.96); }
+  .cat-card.added { border-color: var(--accent); }
+  .cat-card img { width: 100%; aspect-ratio: 1/1; object-fit: contain; background: #fff; display: block; }
+  .cat-card .cc-body { padding: .5rem .6rem .6rem; }
+  .cat-card .cc-name { font-size: .78rem; font-weight: 650; line-height: 1.25; display: block; }
+  .cat-card .cc-meta { font-size: .66rem; color: var(--muted); display: block; margin-top: .15rem; }
+  .cc-info {
+    position: absolute; left: .4rem; top: .4rem; width: 27px; height: 27px; border-radius: 50%;
+    border: 1px solid var(--line); background: rgba(16,16,20,.62); color: #fff; font-size: .8rem;
+    cursor: pointer; z-index: 2; display: grid; place-items: center; padding: 0;
+  }
+  .cc-add {
+    position: absolute; right: .4rem; top: .4rem; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--accent); color: #101014; display: grid; place-items: center;
+    font-weight: 800; font-size: .95rem; pointer-events: none;
+  }
+  .more-row { display: flex; justify-content: center; margin-top: .9rem; }
 
   /* ---------- Sello + celebración ---------- */
   .stamp {
@@ -233,35 +307,8 @@
     z-index: 4; animation: glowPulse 1.15s ease-out forwards;
   }
   .card.celebrate .bar i { animation: barFlash 1s ease; }
-  .cf-layer { position: fixed; inset: 0; pointer-events: none; z-index: 80; overflow: hidden; }
+  .cf-layer { position: fixed; inset: 0; pointer-events: none; z-index: 110; overflow: hidden; }
   .cf { position: absolute; display: block; animation: cfall 1.6s both; }
-
-  /* ---------- Catálogo ---------- */
-  .search {
-    width: 100%; background: var(--soft); border: 1px solid var(--line); color: var(--ink);
-    border-radius: 12px; padding: .6rem .9rem; font-size: .95rem; font-family: inherit;
-  }
-  .search:focus { outline: 2px solid var(--accent); border-color: transparent; }
-  .chips { display: flex; gap: .4rem; overflow-x: auto; padding: .6rem .1rem .2rem; scrollbar-width: none; flex-wrap: wrap; }
-  .chips::-webkit-scrollbar { display: none; }
-  .chip {
-    flex: none; border: 1px solid var(--line); background: var(--card); color: var(--ink);
-    border-radius: 999px; padding: .32rem .8rem .26rem; cursor: pointer; font-size: .8rem; font-weight: 700;
-    letter-spacing: .04em; transition: background .2s, border-color .2s, color .2s;
-  }
-  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #101014; }
-  .cat-count { font-size: .78rem; color: var(--muted); margin: .5rem 0 .2rem; }
-  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .6rem; }
-  .cat-card {
-    background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
-    cursor: pointer; transition: transform .15s, border-color .2s; text-align: left; padding: 0; color: var(--ink);
-  }
-  .cat-card:active { transform: scale(.96); }
-  .cat-card img { width: 100%; aspect-ratio: 1/1; object-fit: contain; background: #fff; display: block; }
-  .cat-card .cc-body { padding: .5rem .6rem .6rem; }
-  .cat-card .cc-name { font-size: .8rem; font-weight: 650; line-height: 1.25; display: block; }
-  .cat-card .cc-meta { font-size: .68rem; color: var(--muted); display: block; margin-top: .15rem; }
-  .more-row { display: flex; justify-content: center; margin-top: .9rem; }
 
   /* ---------- Modal ---------- */
   .modal-bg {
@@ -299,9 +346,28 @@
   .addto .chips { padding: .2rem 0; }
   .quickadd { width: 100%; margin-bottom: .6rem; }
 
+  /* ---------- Diálogos ---------- */
+  .dlg-bg { place-items: center; z-index: 100; }
+  .dialog {
+    width: min(92vw, 400px); background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+    padding: 1.2rem; animation: slideUp .25s cubic-bezier(.2,.8,.2,1); box-shadow: var(--shadow);
+    position: relative; overflow: hidden;
+  }
+  .dialog h3 { font-family: var(--display); text-transform: uppercase; font-style: italic; letter-spacing: .07em; font-size: 1.3rem; margin: 0 0 .5rem; }
+  .dialog p { font-size: .88rem; color: var(--muted); margin: .2rem 0 .9rem; }
+  .dialog .name-input { margin-bottom: .9rem; }
+  .dialog .row { display: flex; gap: .5rem; justify-content: flex-end; flex-wrap: wrap; }
+  .dialog .big { font-size: 2.8rem; text-align: center; margin: .1rem 0 .2rem; animation: pop .5s .15s backwards; }
+  .dialog .resumen { display: flex; gap: .5rem; justify-content: center; margin: .6rem 0 .9rem; flex-wrap: wrap; }
+  .dialog .resumen span {
+    font-family: var(--display); font-size: 1rem; letter-spacing: .06em; text-transform: uppercase;
+    background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: .35rem .7rem .28rem;
+    color: var(--pc, var(--accent));
+  }
+
   /* ---------- Toast ---------- */
   .toast {
-    position: fixed; left: 50%; bottom: 5.4rem; transform: translateX(-50%); z-index: 95;
+    position: fixed; left: 50%; bottom: 5.4rem; transform: translateX(-50%); z-index: 120;
     background: var(--ink); color: #101014; font-weight: 700; font-size: .85rem;
     border-radius: 999px; padding: .55rem 1.1rem; box-shadow: var(--shadow);
     animation: toastIn .25s, fadeOut .3s 2.2s forwards; max-width: 90vw; text-align: center;
@@ -392,6 +458,7 @@
 </div>
 
 <div id="modal-root"></div>
+<div id="dlg-root"></div>
 
 <script src="./data/ejercicios.js"></script>
 <script>
@@ -417,6 +484,8 @@ const GRUPOS = [
   { key: 'cardio', nombre: 'Cardio' },
 ];
 const grupoNombre = key => { const g = GRUPOS.find(x => x.key === key); return g ? g.nombre : key; };
+const COUNTS = {};
+window.CATALOGO.forEach(e => { COUNTS[e.bp] = (COUNTS[e.bp] || 0) + 1; });
 
 const EQ_ES = {
   'body weight': 'Peso corporal', 'cable': 'Polea', 'leverage machine': 'Máquina',
@@ -489,12 +558,12 @@ const state = {
   view: store.get('gf.view', 'general'),
   catGrupo: 'todos',
   catQ: '',
-  catLimit: 48,
+  catLimit: 36,
   editDays: {},
-  newDias: 3,
   addTarget: null,
+  builder: null,
 };
-if (!['general', 'test', 'mis', 'catalogo'].includes(state.view)) state.view = 'general';
+if (!['general', 'test', 'mis', 'crear', 'catalogo'].includes(state.view)) state.view = 'general';
 
 function hoy() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
 const doneKey = key => 'gf.done.' + key + '.' + hoy();
@@ -516,6 +585,17 @@ function deleteRutina(rid) {
   store.set('gf.rutinas', misRutinas().filter(r => r.id !== rid));
 }
 
+/* Borrador del creador de rutinas (sobrevive si cambias de pestaña) */
+function nuevoBorrador() {
+  return { fase: 1, nombre: '', nDias: 3, dias: [], diaSel: 'd1', grupo: 'todos', q: '', limit: 36 };
+}
+function borrador() {
+  if (!state.builder) state.builder = store.get('gf.borrador', null) || nuevoBorrador();
+  return state.builder;
+}
+function saveBorrador() { if (state.builder) store.set('gf.borrador', state.builder); }
+function limpiarBorrador() { state.builder = null; store.del('gf.borrador'); }
+
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /* ---------- Render: tabs ---------- */
@@ -528,19 +608,26 @@ function renderTabs() {
     '<button class="tab" data-view="general" aria-pressed="' + (state.view === 'general') + '">General</button>' +
     '<button class="tab" data-view="test" style="--tc:#9AA0A6" aria-pressed="' + (state.view === 'test') + '"><span class="dot"></span>Rutina Test</button>' +
     '<button class="tab" data-view="mis" aria-pressed="' + (state.view === 'mis') + '">Mis rutinas</button>' +
+    '<button class="tab" data-view="crear" aria-pressed="' + (state.view === 'crear') + '">＋ Crear rutina</button>' +
     '<button class="tab" data-view="catalogo" aria-pressed="' + (state.view === 'catalogo') + '">Catálogo</button>';
 }
 
-/* ---------- Render: general ---------- */
+/* ---------- Render: general (home) ---------- */
 
 function renderGeneral() {
   const peso = store.get('gf.peso', 90);
   const m = macros(peso);
-  let h = '<section class="card rules"><span class="wm">!</span><h2>Cómo funciona</h2><ul>' +
-    '<li><strong>Rutina Test:</strong> una rutina de ejemplo (empuje / jalón / pierna) para probar todo: checks, edición, series, videos.</li>' +
-    '<li><strong>Mis rutinas:</strong> crea las tuyas — eliges el nombre, cuántos días y qué ejercicios del catálogo va en cada día.</li>' +
-    '<li><strong>Catálogo:</strong> ' + window.CATALOGO.length + ' ejercicios por grupo muscular, con animación e instrucciones en español. Toca cualquiera para verlo y agregarlo a una rutina.</li>' +
-    '<li><strong>Series editables:</strong> toca el número de series de cualquier ejercicio para cambiarlo.</li>' +
+  let h = '<section class="card"><span class="wm">GO</span><h2>Empieza aquí</h2>' +
+    '<div class="cta-row">' +
+    '<button class="cta" data-goto="crear"><b>＋ Crear rutina</b><span>Nombre, días y ejercicios elegidos de manera interactiva</span></button>' +
+    '<button class="cta alt" data-goto="catalogo"><b>≡ Catálogo</b><span>' + window.CATALOGO.length + ' ejercicios por grupo muscular, con animación e instrucciones</span></button>' +
+    '</div></section>';
+
+  h += '<section class="card rules"><span class="wm">!</span><h2>Cómo funciona</h2><ul>' +
+    '<li><strong>Crear rutina:</strong> eliges nombre y días, y luego armas cada día tocando ejercicios del catálogo — con barra lateral por grupo muscular.</li>' +
+    '<li><strong>Rutina Test:</strong> una rutina de ejemplo (empuje / jalón / pierna) para probar checks, edición y animaciones.</li>' +
+    '<li><strong>Toca cualquier ejercicio</strong> para ver cómo se hace, y su número de series para cambiarlo.</li>' +
+    '<li><strong>Macros:</strong> se calculan solos con tu peso, aquí abajo.</li>' +
     '<li><strong>Calentamiento:</strong> 5 min de cardio suave + 1 serie ligera del primer ejercicio.</li>' +
     '</ul></section>';
 
@@ -563,7 +650,7 @@ function renderGeneral() {
   return h;
 }
 
-/* ---------- Render: rutinas ---------- */
+/* ---------- Render: rutinas guardadas ---------- */
 
 function itemRow(it, key, idx, editing) {
   const e = EX[it.ex];
@@ -643,40 +730,40 @@ function renderTest() {
 
 function renderMis() {
   const list = misRutinas();
-  let h = '<section class="card"><span class="wm">＋</span><h2>Crear rutina</h2>' +
-    '<p class="sub">Elige nombre y cantidad de días; luego agrega los ejercicios de cada día desde el catálogo.</p>' +
-    '<div class="form-row"><label for="rut-nombre">Nombre</label>' +
-    '<input class="name-input" id="rut-nombre" type="text" maxlength="40" placeholder="Ej. Push Pull Legs, Full body 3 días..."></div>' +
-    '<div class="form-row"><label>¿Cuántos días por semana?</label>' +
-    '<div class="chips">' + [1, 2, 3, 4, 5, 6, 7].map(n =>
-      '<button class="chip" data-ndias="' + n + '" aria-pressed="' + (state.newDias === n) + '">' + n + (n === 1 ? ' día' : ' días') + '</button>'
-    ).join('') + '</div></div>' +
-    '<div class="day-actions"><button class="btn primary" data-crear-rutina>Crear rutina</button></div>' +
+  let h = '<section class="card"><span class="wm">★</span><h2>Mis rutinas</h2>' +
+    '<p class="sub">' + (list.length ? 'Tus rutinas creadas. Toca «✎ Editar» en un día para modificarlo.' : 'Aún no tienes rutinas propias.') + '</p>' +
+    '<div class="day-actions" style="margin-top:.2rem"><button class="btn primary" data-goto="crear">＋ Crear rutina</button></div>' +
     '</section>';
-
-  if (!list.length) {
-    h += '<section class="card"><span class="wm">?</span><h2>Aún no tienes rutinas</h2>' +
-      '<p class="sub" style="margin-bottom:0">Crea la primera arriba, o entra a la <strong>Rutina Test</strong> para ver cómo funciona una ya armada.</p></section>';
-  } else {
+  if (list.length) {
     h += list.map(r => rutinaCards(r, false)).join('');
     h += '<p class="note" style="margin-top:.5rem">Los checks se reinician cada día. Tus rutinas se guardan en este navegador.</p>';
+  } else {
+    h += '<section class="card"><span class="wm">?</span><h2>¿Cómo se ve una?</h2>' +
+      '<p class="sub" style="margin-bottom:0">Entra a la <strong>Rutina Test</strong> para ver una ya armada, o crea la tuya con el botón de arriba.</p></section>';
   }
   return h;
 }
 
-/* ---------- Render: catálogo ---------- */
+/* ---------- Catálogo: helpers compartidos ---------- */
 
-function filtrarCatalogo() {
-  const q = state.catQ.trim().toLowerCase();
+function filtrar(grupo, q) {
+  const t = (q || '').trim().toLowerCase();
   return window.CATALOGO.filter(e => {
-    if (state.catGrupo !== 'todos' && e.bp !== state.catGrupo) return false;
-    if (!q) return true;
-    return e.n.toLowerCase().includes(q) || (e.t || '').toLowerCase().includes(q) ||
-      muscNombre(e.t).toLowerCase().includes(q) || eqNombre(e.eq).toLowerCase().includes(q);
+    if (grupo !== 'todos' && e.bp !== grupo) return false;
+    if (!t) return true;
+    return e.n.toLowerCase().includes(t) || (e.t || '').toLowerCase().includes(t) ||
+      muscNombre(e.t).toLowerCase().includes(t) || eqNombre(e.eq).toLowerCase().includes(t);
   });
 }
 
-function catGridHTML(list, shown) {
+function sideBtns(sel, attr) {
+  return '<button ' + attr + '="todos" aria-pressed="' + (sel === 'todos') + '">Todos<small>' + window.CATALOGO.length + '</small></button>' +
+    GRUPOS.map(g =>
+      '<button ' + attr + '="' + g.key + '" aria-pressed="' + (sel === g.key) + '">' + g.nombre + '<small>' + (COUNTS[g.key] || 0) + '</small></button>'
+    ).join('');
+}
+
+function catGridHTML(shown) {
   return shown.map(e =>
     '<button class="cat-card" data-open="' + e.id + '">' +
     '<img loading="lazy" src="' + imgURL(e) + '" alt="">' +
@@ -686,26 +773,155 @@ function catGridHTML(list, shown) {
   ).join('');
 }
 
+function moreRowHTML(rest, attr) {
+  return '<div class="more-row"><button class="btn" ' + attr + '>Mostrar más (' + rest + ' restantes)</button></div>';
+}
+
 function renderCatalogo() {
-  const list = filtrarCatalogo();
+  const list = filtrar(state.catGrupo, state.catQ);
   const shown = list.slice(0, state.catLimit);
   const t = state.addTarget;
-  let h = '<section class="card"><span class="wm">≡</span><h2>Catálogo</h2>' +
+  return '<section class="card" id="cat-browser"><span class="wm">≡</span><h2>Catálogo</h2>' +
     (t ? '<div class="strip" style="margin:.6rem 0 .3rem"><b>Agregando</b> Toca un ejercicio para sumarlo a ' + esc(t.diaNombre) + ' de «' + esc(t.rutNombre) + '».</div>' : '') +
-    '<p class="sub">' + window.CATALOGO.length + ' ejercicios por grupo muscular. Toca uno para ver la animación, las instrucciones y agregarlo a una rutina.</p>' +
+    '<p class="sub">Elige un grupo muscular en la barra lateral o busca por nombre. Toca un ejercicio para ver la animación e instrucciones.</p>' +
     '<input class="search" id="cat-q" type="search" placeholder="Buscar ejercicio (ej. press, curl, squat...)" value="' + esc(state.catQ) + '">' +
-    '<div class="chips" id="cat-chips">' +
-    '<button class="chip" data-grupo="todos" aria-pressed="' + (state.catGrupo === 'todos') + '">Todos</button>' +
-    GRUPOS.map(g => '<button class="chip" data-grupo="' + g.key + '" aria-pressed="' + (state.catGrupo === g.key) + '">' + g.nombre + '</button>').join('') +
+    '<div class="split">' +
+    '<div class="side">' + sideBtns(state.catGrupo, 'data-grupo') + '</div>' +
+    '<div class="split-main">' +
+    '<p class="cat-count">' + list.length + ' ejercicios' + (state.catGrupo !== 'todos' ? ' · ' + grupoNombre(state.catGrupo) : '') + (state.catQ ? ' · «' + esc(state.catQ) + '»' : '') + '</p>' +
+    '<div class="cat-grid">' + catGridHTML(shown) + '</div>' +
+    (list.length > shown.length ? moreRowHTML(list.length - shown.length, 'data-more') : '') +
+    '</div></div>' +
+    '<p class="attr">Imágenes y animaciones © <a href="https://gymvisual.com/" target="_blank" rel="noopener">Gym visual</a>.</p>' +
+    '</section>';
+}
+
+function refreshCatGrid() {
+  const card = appEl.querySelector('#cat-browser');
+  if (!card) return;
+  const list = filtrar(state.catGrupo, state.catQ);
+  const shown = list.slice(0, state.catLimit);
+  card.querySelector('.cat-count').textContent = list.length + ' ejercicios' + (state.catGrupo !== 'todos' ? ' · ' + grupoNombre(state.catGrupo) : '') + (state.catQ ? ' · «' + state.catQ + '»' : '');
+  card.querySelector('.cat-grid').innerHTML = catGridHTML(shown);
+  card.querySelectorAll('.side [data-grupo]').forEach(b => b.setAttribute('aria-pressed', b.dataset.grupo === state.catGrupo));
+  const mr = card.querySelector('.more-row');
+  if (mr) mr.remove();
+  if (list.length > shown.length) card.querySelector('.cat-grid').insertAdjacentHTML('afterend', moreRowHTML(list.length - shown.length, 'data-more'));
+}
+
+/* ---------- Render: creador de rutinas ---------- */
+
+function builderGridHTML(shown) {
+  return shown.map(e =>
+    '<div class="cat-card" data-bdadd="' + e.id + '" role="button" tabindex="0" aria-label="Agregar ' + esc(e.n) + '">' +
+    '<button class="cc-info" data-open="' + e.id + '" aria-label="Ver detalles de ' + esc(e.n) + '">ⓘ</button>' +
+    '<span class="cc-add">＋</span>' +
+    '<img loading="lazy" src="' + imgURL(e) + '" alt="">' +
+    '<span class="cc-body"><span class="cc-name">' + esc(e.n) + '</span>' +
+    '<span class="cc-meta">' + esc(muscNombre(e.t)) + ' · ' + esc(eqNombre(e.eq)) + '</span></span>' +
+    '</div>'
+  ).join('');
+}
+
+function builderDayListHTML(b) {
+  const day = b.dias.find(d => d.id === b.diaSel);
+  if (!day || !day.items.length) return '<p class="bd-empty">Este día está vacío — toca ejercicios abajo para agregarlos.</p>';
+  return '<ul class="bd-day-list">' + day.items.map((it, i) => {
+    const e = EX[it.ex];
+    if (!e) return '';
+    return '<li>' +
+      '<img class="ex-thumb" style="width:36px;height:36px" loading="lazy" src="' + imgURL(e) + '" alt="" data-open="' + e.id + '">' +
+      '<span class="ex-info" data-open="' + e.id + '"><span class="ex-name" style="font-size:.86rem">' + esc(it.alias || e.n) + '</span></span>' +
+      '<button class="ex-sets" data-bd-sets="' + i + '" title="Editar series">' + esc(it.sets) + '</button>' +
+      '<span class="ex-ctrl"><button class="rm" data-bd-rm="' + i + '" aria-label="Quitar">✕</button></span>' +
+      '</li>';
+  }).join('') + '</ul>';
+}
+
+function renderCrear() {
+  const b = borrador();
+
+  if (b.fase === 1) {
+    return '<section class="card"><span class="wm">＋</span><h2>Crear rutina</h2>' +
+      '<p class="sub">Paso 1 de 2 — ponle nombre y elige cuántos días tendrá. Después eliges los ejercicios de manera interactiva.</p>' +
+      '<div class="form-row"><label for="rut-nombre">Nombre de la rutina</label>' +
+      '<input class="name-input" id="rut-nombre" type="text" maxlength="40" placeholder="Ej. Push Pull Legs, Full body 3 días..." value="' + esc(b.nombre) + '"></div>' +
+      '<div class="form-row"><label>¿Cuántos días?</label>' +
+      '<div class="chips">' + [1, 2, 3, 4, 5, 6, 7].map(n =>
+        '<button class="chip" data-ndias="' + n + '" aria-pressed="' + (b.nDias === n) + '">' + n + (n === 1 ? ' día' : ' días') + '</button>'
+      ).join('') + '</div></div>' +
+      '<div class="day-actions">' +
+      '<button class="btn primary" data-bd-continuar>Elegir ejercicios →</button>' +
+      (b.dias.some(d => d.items.length) ? '<button class="btn ghost danger" data-bd-cancel>✕ Descartar borrador</button>' : '') +
+      '</div>' +
+      '</section>';
+  }
+
+  const day = b.dias.find(d => d.id === b.diaSel) || b.dias[0];
+  const total = b.dias.reduce((a, d) => a + d.items.length, 0);
+  const list = filtrar(b.grupo, b.q);
+  const shown = list.slice(0, b.limit);
+
+  let h = '<section class="card"><span class="wm">2/2</span>' +
+    '<div class="rut-head"><p class="rut-name" data-bd-rename title="Tocar para renombrar">' + esc(b.nombre || 'Mi rutina') + '</p>' +
+    '<span class="rut-actions"><button class="btn ghost" data-bd-back>← Días</button></span></div>' +
+    '<p class="sub">Paso 2 de 2 — elige un día y toca ejercicios del catálogo de abajo para agregarlos. Llevas ' + total + ' en total.</p>' +
+    '<div class="chips">' + b.dias.map(d =>
+      '<button class="chip" data-bd-day="' + d.id + '" aria-pressed="' + (d.id === b.diaSel) + '">' + esc(d.dia) + ' <span class="n">(' + d.items.length + ')</span></button>'
+    ).join('') + '</div>' +
+    '<div id="bd-panel">' + builderDayListHTML(b) + '</div>' +
+    '<div class="day-actions">' +
+    '<button class="btn primary" data-bd-save>💾 Guardar rutina</button>' +
+    '<button class="btn ghost danger" data-bd-cancel>✕ Descartar</button>' +
     '</div>' +
-    '<p class="cat-count">' + list.length + ' ejercicios' + (state.catGrupo !== 'todos' ? ' en ' + grupoNombre(state.catGrupo) : '') + (state.catQ ? ' con «' + esc(state.catQ) + '»' : '') + '</p>' +
-    '<div class="cat-grid">' + catGridHTML(list, shown) + '</div>' +
-    (list.length > shown.length
-      ? '<div class="more-row"><button class="btn" data-more>Mostrar más (' + (list.length - shown.length) + ' restantes)</button></div>'
-      : '') +
+    '</section>';
+
+  h += '<section class="card" id="bd-browser"><span class="wm">≡</span><h2>Elige ejercicios</h2>' +
+    '<p class="sub">Se agregan a <strong id="bd-target">' + esc(day ? day.dia : '') + '</strong>. Toca la carta para agregar; ⓘ para ver cómo se hace.</p>' +
+    '<input class="search" id="bd-q" type="search" placeholder="Buscar ejercicio..." value="' + esc(b.q) + '">' +
+    '<div class="split">' +
+    '<div class="side">' + sideBtns(b.grupo, 'data-bd-grupo') + '</div>' +
+    '<div class="split-main">' +
+    '<p class="cat-count">' + list.length + ' ejercicios</p>' +
+    '<div class="cat-grid">' + builderGridHTML(shown) + '</div>' +
+    (list.length > shown.length ? moreRowHTML(list.length - shown.length, 'data-bd-more') : '') +
+    '</div></div>' +
     '<p class="attr">Imágenes y animaciones © <a href="https://gymvisual.com/" target="_blank" rel="noopener">Gym visual</a>.</p>' +
     '</section>';
   return h;
+}
+
+function refreshBuilderPanel() {
+  const b = state.builder;
+  if (!b) return;
+  const panel = appEl.querySelector('#bd-panel');
+  if (!panel) { render(); return; }
+  panel.innerHTML = builderDayListHTML(b);
+  appEl.querySelectorAll('[data-bd-day]').forEach(btn => {
+    const d = b.dias.find(x => x.id === btn.dataset.bdDay);
+    btn.setAttribute('aria-pressed', String(b.diaSel === btn.dataset.bdDay));
+    if (d) btn.innerHTML = esc(d.dia) + ' <span class="n">(' + d.items.length + ')</span>';
+  });
+  const target = appEl.querySelector('#bd-target');
+  const day = b.dias.find(d => d.id === b.diaSel);
+  if (target && day) target.textContent = day.dia;
+  const sub = appEl.querySelector('.card .sub');
+  if (sub) sub.innerHTML = 'Paso 2 de 2 — elige un día y toca ejercicios del catálogo de abajo para agregarlos. Llevas ' + b.dias.reduce((a, d) => a + d.items.length, 0) + ' en total.';
+}
+
+function refreshBuilderGrid() {
+  const b = state.builder;
+  if (!b) return;
+  const card = appEl.querySelector('#bd-browser');
+  if (!card) return;
+  const list = filtrar(b.grupo, b.q);
+  const shown = list.slice(0, b.limit);
+  card.querySelector('.cat-count').textContent = list.length + ' ejercicios';
+  card.querySelector('.cat-grid').innerHTML = builderGridHTML(shown);
+  card.querySelectorAll('.side [data-bd-grupo]').forEach(x => x.setAttribute('aria-pressed', x.dataset.bdGrupo === b.grupo));
+  const mr = card.querySelector('.more-row');
+  if (mr) mr.remove();
+  if (list.length > shown.length) card.querySelector('.cat-grid').insertAdjacentHTML('afterend', moreRowHTML(list.length - shown.length, 'data-bd-more'));
 }
 
 /* ---------- Render raíz ---------- */
@@ -715,10 +931,71 @@ function render() {
   appEl.innerHTML =
     state.view === 'test' ? renderTest() :
     state.view === 'mis' ? renderMis() :
+    state.view === 'crear' ? renderCrear() :
     state.view === 'catalogo' ? renderCatalogo() :
     renderGeneral();
   appEl.querySelectorAll('.card').forEach((c, i) => { c.style.animationDelay = Math.min(i * 70, 500) + 'ms'; });
 }
+
+/* ---------- Diálogos (reemplazo de prompt/confirm) ---------- */
+
+const dlgRoot = document.getElementById('dlg-root');
+let dlgCb = null;
+
+function dlgClose() { dlgRoot.innerHTML = ''; dlgCb = null; }
+
+function dlgInput(titulo, valor, cb, hint) {
+  dlgCb = cb;
+  dlgRoot.innerHTML = '<div class="modal-bg dlg-bg" data-dlg-bg><div class="dialog">' +
+    '<h3>' + esc(titulo) + '</h3>' +
+    (hint ? '<p>' + esc(hint) + '</p>' : '') +
+    '<input class="name-input" id="dlg-in" type="text" maxlength="60" value="' + esc(valor) + '">' +
+    '<div class="row"><button class="btn ghost" data-dlg-cancel>Cancelar</button><button class="btn primary" data-dlg-ok>Guardar</button></div>' +
+    '</div></div>';
+  const inp = dlgRoot.querySelector('#dlg-in');
+  inp.focus();
+  inp.select();
+}
+
+function dlgConfirm(titulo, msg, cb, txtOk) {
+  dlgCb = cb;
+  dlgRoot.innerHTML = '<div class="modal-bg dlg-bg" data-dlg-bg><div class="dialog">' +
+    '<h3>' + esc(titulo) + '</h3>' +
+    '<p>' + esc(msg) + '</p>' +
+    '<div class="row"><button class="btn ghost" data-dlg-cancel>Cancelar</button><button class="btn primary" data-dlg-ok>' + esc(txtOk || 'Confirmar') + '</button></div>' +
+    '</div></div>';
+}
+
+function dlgExito(rut) {
+  const total = rut.dias.reduce((a, d) => a + d.items.length, 0);
+  dlgCb = null;
+  dlgRoot.innerHTML = '<div class="modal-bg dlg-bg" data-dlg-bg><div class="dialog" style="--pc:' + rut.color + '">' +
+    '<p class="big">🎉</p>' +
+    '<h3 style="text-align:center">¡Rutina creada!</h3>' +
+    '<p style="text-align:center">«' + esc(rut.nombre) + '» ya está lista en Mis rutinas.</p>' +
+    '<div class="resumen"><span>' + rut.dias.length + ' día' + (rut.dias.length === 1 ? '' : 's') + '</span><span>' + total + ' ejercicios</span></div>' +
+    '<div class="row" style="justify-content:center"><button class="btn primary" data-dlg-cancel>Ver mi rutina</button></div>' +
+    '</div></div>';
+  celebrate(dlgRoot.querySelector('.dialog'), rut.color);
+}
+
+dlgRoot.addEventListener('click', e => {
+  if (e.target.matches('[data-dlg-bg]') || e.target.closest('[data-dlg-cancel]')) { dlgClose(); return; }
+  if (e.target.closest('[data-dlg-ok]')) {
+    const inp = dlgRoot.querySelector('#dlg-in');
+    const cb = dlgCb;
+    dlgClose();
+    if (cb) cb(inp ? inp.value : true);
+  }
+});
+dlgRoot.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.id === 'dlg-in') {
+    const cb = dlgCb;
+    const v = e.target.value;
+    dlgClose();
+    if (cb) cb(v);
+  }
+});
 
 /* ---------- Modal de ejercicio ---------- */
 
@@ -728,6 +1005,8 @@ function openEx(exId) {
   const e = EX[exId];
   if (!e) return;
   const steps = (e.steps || []).map(s => '<li>' + esc(s) + '</li>').join('');
+  const enBuilder = state.view === 'crear' && state.builder && state.builder.fase === 2;
+  const bDay = enBuilder ? state.builder.dias.find(d => d.id === state.builder.diaSel) : null;
   const t = state.addTarget;
   const ruts = todasRutinas();
   modalRoot.innerHTML =
@@ -742,11 +1021,11 @@ function openEx(exId) {
     '<img class="modal-gif" src="' + gifURL(e) + '" alt="Animación de ' + esc(e.n) + '">' +
     (steps ? '<ol class="steps">' + steps + '</ol>' : '') +
     '<div class="addto"><h4>Agregar a una rutina</h4>' +
-    (t ? '<button class="btn primary quickadd" data-quickadd>→ Agregar a ' + esc(t.diaNombre) + ' · ' + esc(t.rutNombre) + '</button>' : '') +
-    '<div class="chips" id="addto-ruts">' +
-    ruts.map(r => '<button class="chip" data-addr="' + r.id + '" aria-pressed="false">' + esc(r.nombre) + '</button>').join('') +
-    '</div>' +
-    '<div class="chips" id="addto-days" hidden></div>' +
+    (enBuilder && bDay ? '<button class="btn primary quickadd" data-quickadd-bd>＋ Agregar a ' + esc(bDay.dia) + ' de «' + esc(state.builder.nombre || 'Mi rutina') + '»</button>' : '') +
+    (!enBuilder && t ? '<button class="btn primary quickadd" data-quickadd>→ Agregar a ' + esc(t.diaNombre) + ' · ' + esc(t.rutNombre) + '</button>' : '') +
+    (!enBuilder ? '<div class="chips" id="addto-ruts">' +
+      ruts.map(r => '<button class="chip" data-addr="' + r.id + '" aria-pressed="false">' + esc(r.nombre) + '</button>').join('') +
+      '</div><div class="chips" id="addto-days" hidden></div>' : '') +
     '</div>' +
     '<p class="attr">Animación © <a href="https://gymvisual.com/" target="_blank" rel="noopener">Gym visual</a></p>' +
     '</div></div>';
@@ -775,12 +1054,30 @@ function addExTo(rid, dayId, exId) {
   if (!day || !EX[exId]) return false;
   day.items.push({ ex: exId, alias: '', sets: '3×12' });
   saveRutina(rut);
-  toast('Agregado a ' + day.dia + ' de «' + rut.nombre + '»');
+  toast('✓ Agregado a ' + day.dia + ' de «' + rut.nombre + '»');
+  return true;
+}
+
+function addExToBuilder(exId) {
+  const b = state.builder;
+  if (!b) return false;
+  const day = b.dias.find(d => d.id === b.diaSel);
+  if (!day || !EX[exId]) return false;
+  day.items.push({ ex: exId, alias: '', sets: '3×12' });
+  saveBorrador();
+  refreshBuilderPanel();
+  toast('✓ ' + (EX[exId].n.length > 34 ? EX[exId].n.slice(0, 32) + '…' : EX[exId].n) + ' → ' + day.dia);
   return true;
 }
 
 modalRoot.addEventListener('click', ev => {
   if (ev.target.closest('[data-close]') || ev.target.matches('[data-close-bg]')) { closeModal(); return; }
+
+  const qb = ev.target.closest('[data-quickadd-bd]');
+  if (qb) {
+    if (addExToBuilder(modalRoot.dataset.ex)) closeModal();
+    return;
+  }
 
   const quick = ev.target.closest('[data-quickadd]');
   if (quick && state.addTarget) {
@@ -851,6 +1148,11 @@ function refreshDay(key, color) {
   }
 }
 
+function keyParts(key) {
+  const i = key.indexOf('.');
+  return [key.slice(0, i), key.slice(i + 1)];
+}
+
 appEl.addEventListener('input', e => {
   if (e.target.id === 'peso-in') {
     const v = parseFloat(e.target.value);
@@ -869,31 +1171,184 @@ appEl.addEventListener('input', e => {
   }
   if (e.target.id === 'cat-q') {
     state.catQ = e.target.value;
-    state.catLimit = 48;
-    const card = e.target.closest('.card');
-    const list = filtrarCatalogo();
-    const shown = list.slice(0, state.catLimit);
-    card.querySelector('.cat-count').textContent = list.length + ' ejercicios' + (state.catQ ? ' con «' + state.catQ + '»' : '');
-    card.querySelector('.cat-grid').innerHTML = catGridHTML(list, shown);
-    const moreRow = card.querySelector('.more-row');
-    if (moreRow) moreRow.remove();
-    if (list.length > shown.length) {
-      const div = document.createElement('div');
-      div.className = 'more-row';
-      div.innerHTML = '<button class="btn" data-more>Mostrar más (' + (list.length - shown.length) + ' restantes)</button>';
-      card.querySelector('.cat-grid').after(div);
-    }
+    state.catLimit = 36;
+    refreshCatGrid();
+    return;
+  }
+  if (e.target.id === 'bd-q') {
+    const b = borrador();
+    b.q = e.target.value;
+    b.limit = 36;
+    saveBorrador();
+    refreshBuilderGrid();
+    return;
+  }
+  if (e.target.id === 'rut-nombre') {
+    const b = borrador();
+    b.nombre = e.target.value;
+    saveBorrador();
   }
 });
-
-function keyParts(key) {
-  const i = key.indexOf('.');
-  return [key.slice(0, i), key.slice(i + 1)];
-}
 
 appEl.addEventListener('click', e => {
   const open = e.target.closest('[data-open]');
   if (open) { openEx(open.dataset.open); return; }
+
+  const goto = e.target.closest('[data-goto]');
+  if (goto) {
+    state.view = goto.dataset.goto;
+    store.set('gf.view', state.view);
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
+  /* --- Builder --- */
+
+  const nd = e.target.closest('[data-ndias]');
+  if (nd) {
+    const b = borrador();
+    b.nDias = Number(nd.dataset.ndias);
+    saveBorrador();
+    appEl.querySelectorAll('[data-ndias]').forEach(x => x.setAttribute('aria-pressed', x === nd));
+    return;
+  }
+
+  const cont = e.target.closest('[data-bd-continuar]');
+  if (cont) {
+    const b = borrador();
+    const dias = [];
+    for (let i = 0; i < b.nDias; i++) {
+      dias.push(b.dias[i] || { id: 'd' + (i + 1), dia: 'Día ' + (i + 1), titulo: 'Entrenamiento ' + (i + 1), items: [] });
+    }
+    b.dias = dias;
+    b.fase = 2;
+    if (!b.dias.some(d => d.id === b.diaSel)) b.diaSel = 'd1';
+    saveBorrador();
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
+  const back = e.target.closest('[data-bd-back]');
+  if (back) {
+    const b = borrador();
+    b.fase = 1;
+    saveBorrador();
+    render();
+    return;
+  }
+
+  const bdDay = e.target.closest('[data-bd-day]');
+  if (bdDay) {
+    const b = borrador();
+    b.diaSel = bdDay.dataset.bdDay;
+    saveBorrador();
+    refreshBuilderPanel();
+    return;
+  }
+
+  const bdAdd = e.target.closest('[data-bdadd]');
+  if (bdAdd) {
+    if (addExToBuilder(bdAdd.dataset.bdadd)) {
+      bdAdd.classList.add('added');
+      setTimeout(() => bdAdd.classList.remove('added'), 700);
+    }
+    return;
+  }
+
+  const bdRm = e.target.closest('[data-bd-rm]');
+  if (bdRm) {
+    const b = borrador();
+    const day = b.dias.find(d => d.id === b.diaSel);
+    if (!day) return;
+    day.items.splice(Number(bdRm.dataset.bdRm), 1);
+    saveBorrador();
+    refreshBuilderPanel();
+    return;
+  }
+
+  const bdSets = e.target.closest('[data-bd-sets]');
+  if (bdSets) {
+    const b = borrador();
+    const day = b.dias.find(d => d.id === b.diaSel);
+    const idx = Number(bdSets.dataset.bdSets);
+    if (!day || !day.items[idx]) return;
+    const ex = EX[day.items[idx].ex];
+    dlgInput('Series × reps', day.items[idx].sets, v => {
+      if (v && v.trim()) {
+        day.items[idx].sets = v.trim();
+        saveBorrador();
+        refreshBuilderPanel();
+      }
+    }, ex ? ex.n : '');
+    return;
+  }
+
+  const bdRen = e.target.closest('[data-bd-rename]');
+  if (bdRen) {
+    const b = borrador();
+    dlgInput('Nombre de la rutina', b.nombre || 'Mi rutina', v => {
+      if (v && v.trim()) {
+        b.nombre = v.trim();
+        saveBorrador();
+        render();
+      }
+    });
+    return;
+  }
+
+  const bdMore = e.target.closest('[data-bd-more]');
+  if (bdMore) {
+    const b = borrador();
+    b.limit += 36;
+    saveBorrador();
+    refreshBuilderGrid();
+    return;
+  }
+
+  const bdGrupo = e.target.closest('[data-bd-grupo]');
+  if (bdGrupo) {
+    const b = borrador();
+    b.grupo = bdGrupo.dataset.bdGrupo;
+    b.limit = 36;
+    saveBorrador();
+    refreshBuilderGrid();
+    return;
+  }
+
+  const bdSave = e.target.closest('[data-bd-save]');
+  if (bdSave) {
+    const b = borrador();
+    const total = b.dias.reduce((a, d) => a + d.items.length, 0);
+    if (!total) { toast('Agrega al menos un ejercicio antes de guardar'); return; }
+    const rut = {
+      id: 'r' + Date.now().toString(36),
+      nombre: (b.nombre || '').trim() || 'Mi rutina',
+      color: PALETA[misRutinas().length % PALETA.length],
+      dias: b.dias,
+    };
+    saveRutina(rut);
+    limpiarBorrador();
+    state.editDays = {};
+    state.view = 'mis';
+    store.set('gf.view', 'mis');
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    dlgExito(rut);
+    return;
+  }
+
+  const bdCancel = e.target.closest('[data-bd-cancel]');
+  if (bdCancel) {
+    dlgConfirm('¿Descartar borrador?', 'Se pierde el nombre, los días y los ejercicios elegidos hasta ahora.', () => {
+      limpiarBorrador();
+      render();
+    }, 'Descartar');
+    return;
+  }
+
+  /* --- Rutinas guardadas --- */
 
   const chk = e.target.closest('.check');
   if (chk) {
@@ -920,12 +1375,14 @@ appEl.addEventListener('click', e => {
     if (!rut) return;
     const day = rut.dias.find(d => d.id === dayId);
     if (!day || !day.items[idx]) return;
-    const nuevo = prompt('Series × reps para «' + (day.items[idx].alias || (EX[day.items[idx].ex] || {}).n || '') + '»', day.items[idx].sets);
-    if (nuevo && nuevo.trim()) {
-      day.items[idx].sets = nuevo.trim();
-      saveRutina(rut);
-      setsBtn.textContent = nuevo.trim();
-    }
+    const ex = EX[day.items[idx].ex];
+    dlgInput('Series × reps', day.items[idx].sets, v => {
+      if (v && v.trim()) {
+        day.items[idx].sets = v.trim();
+        saveRutina(rut);
+        setsBtn.textContent = v.trim();
+      }
+    }, day.items[idx].alias || (ex ? ex.n : ''));
     return;
   }
 
@@ -996,8 +1453,9 @@ appEl.addEventListener('click', e => {
     const rut = getRutina(rid);
     const day = rut && rut.dias.find(d => d.id === dayId);
     if (!day) return;
-    const nuevo = prompt('Etiqueta del día (ej. Lunes, Día 1...)', day.dia);
-    if (nuevo && nuevo.trim()) { day.dia = nuevo.trim(); saveRutina(rut); render(); }
+    dlgInput('Etiqueta del día', day.dia, v => {
+      if (v && v.trim()) { day.dia = v.trim(); saveRutina(rut); render(); }
+    }, 'Ej. Lunes, Martes, Día 1...');
     return;
   }
 
@@ -1009,33 +1467,9 @@ appEl.addEventListener('click', e => {
     const rut = getRutina(rid);
     const day = rut && rut.dias.find(d => d.id === dayId);
     if (!day) return;
-    const nuevo = prompt('Título del día (ej. Empuje, Pierna...)', day.titulo);
-    if (nuevo && nuevo.trim()) { day.titulo = nuevo.trim(); saveRutina(rut); render(); }
-    return;
-  }
-
-  const nd = e.target.closest('[data-ndias]');
-  if (nd) {
-    state.newDias = Number(nd.dataset.ndias);
-    appEl.querySelectorAll('[data-ndias]').forEach(b => b.setAttribute('aria-pressed', b === nd));
-    return;
-  }
-
-  const crear = e.target.closest('[data-crear-rutina]');
-  if (crear) {
-    const input = appEl.querySelector('#rut-nombre');
-    const nombre = (input && input.value.trim()) || 'Mi rutina';
-    const n = state.newDias || 3;
-    const id = 'r' + Date.now().toString(36);
-    const color = PALETA[misRutinas().length % PALETA.length];
-    const rut = {
-      id, nombre, color,
-      dias: Array.from({ length: n }, (_, i) => ({ id: 'd' + (i + 1), dia: 'Día ' + (i + 1), titulo: 'Entrenamiento ' + (i + 1), items: [] })),
-    };
-    saveRutina(rut);
-    state.editDays[id + '.d1'] = true;
-    render();
-    toast('Rutina «' + nombre + '» creada — agrega ejercicios a cada día');
+    dlgInput('Título del día', day.titulo, v => {
+      if (v && v.trim()) { day.titulo = v.trim(); saveRutina(rut); render(); }
+    }, 'Ej. Empuje, Pierna, Full body...');
     return;
   }
 
@@ -1043,8 +1477,9 @@ appEl.addEventListener('click', e => {
   if (renRut) {
     const rut = getRutina(renRut.dataset.renRut);
     if (!rut) return;
-    const nuevo = prompt('Nombre de la rutina', rut.nombre);
-    if (nuevo && nuevo.trim()) { rut.nombre = nuevo.trim(); saveRutina(rut); render(); }
+    dlgInput('Nombre de la rutina', rut.nombre, v => {
+      if (v && v.trim()) { rut.nombre = v.trim(); saveRutina(rut); render(); }
+    });
     return;
   }
 
@@ -1052,35 +1487,37 @@ appEl.addEventListener('click', e => {
   if (delRut) {
     const rut = getRutina(delRut.dataset.delRut);
     if (!rut) return;
-    if (confirm('¿Eliminar la rutina «' + rut.nombre + '»? No se puede deshacer.')) {
+    dlgConfirm('¿Eliminar «' + rut.nombre + '»?', 'Se borra la rutina completa. No se puede deshacer.', () => {
       deleteRutina(rut.id);
       render();
-    }
+    }, 'Eliminar');
     return;
   }
 
   const resetTest = e.target.closest('[data-reset-test]');
   if (resetTest) {
-    if (confirm('¿Restaurar la Rutina Test a su estado original?')) {
+    dlgConfirm('¿Restaurar la Rutina Test?', 'Vuelve a su estado original y se pierden tus cambios en ella.', () => {
       deleteRutina('test');
       state.editDays = {};
       render();
-    }
+    }, 'Restaurar');
     return;
   }
 
+  /* --- Catálogo --- */
+
   const moreBtn = e.target.closest('[data-more]');
   if (moreBtn) {
-    state.catLimit += 48;
-    render();
+    state.catLimit += 36;
+    refreshCatGrid();
     return;
   }
 
   const chip = e.target.closest('[data-grupo]');
   if (chip) {
     state.catGrupo = chip.dataset.grupo;
-    state.catLimit = 48;
-    render();
+    state.catLimit = 36;
+    refreshCatGrid();
     return;
   }
 });
@@ -1168,7 +1605,7 @@ timerEl.addEventListener('click', e => {
 });
 stopBtn.addEventListener('click', () => stopTimer(false));
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); dlgClose(); } });
 
 /* ---------- PWA ---------- */
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
