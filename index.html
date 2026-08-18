@@ -442,6 +442,7 @@ const PEOPLE = [
   { id: 'gaykiss', nombre: 'GayKiss', peso: 89,  color: '#6B8E23' },
   { id: 'cassini', nombre: 'Cassini', peso: 86,  color: '#35D07F' },
   { id: 'fixer',   nombre: 'Fixer',   peso: 86,  color: '#B08CFF' },
+  { id: 'test',    nombre: 'Test',    peso: 90,  color: '#9AA0A6' },
 ];
 
 /* Rutina inicial (plantilla) — cada persona la puede editar a su gusto. */
@@ -469,6 +470,30 @@ const RUTINA_BASE = [
     { ex: '0289', alias: 'Press de banca con mancuernas', sets: '3×12' },
     { ex: '0203', alias: 'Face pull (remo posterior con cuerda)', sets: '3×15' },
     { ex: '0630', alias: 'Escaladores (mountain climbers)', sets: '3×30"' },
+  ]},
+];
+
+/* Rutina de prueba para la pestaña Test — estilo empuje / jalón / pierna,
+   con ejercicios distintos a la plantilla para probar la edición sin miedo. */
+const RUTINA_TEST = [
+  { id: 'a', dia: 'Martes', titulo: 'Empuje (test)', items: [
+    { ex: '0025', alias: 'Press de banca con barra', sets: '4×8' },
+    { ex: '2137', alias: 'Press Arnold con mancuernas', sets: '3×10' },
+    { ex: '0241', alias: 'Extensión de tríceps en polea (barra V)', sets: '3×12' },
+    { ex: '0178', alias: 'Elevaciones laterales en polea', sets: '3×15' },
+  ]},
+  { id: 'b', dia: 'Jueves', titulo: 'Jalón (test)', items: [
+    { ex: '0017', alias: 'Dominadas asistidas', sets: '3×8' },
+    { ex: '0027', alias: 'Remo con barra', sets: '4×10' },
+    { ex: '0313', alias: 'Curl martillo con mancuernas', sets: '3×12' },
+    { ex: '0472', alias: 'Elevación de piernas colgado', sets: '3×12' },
+  ]},
+  { id: 'c', dia: 'Sábado', titulo: 'Pierna (test)', items: [
+    { ex: '0032', alias: 'Peso muerto con barra', sets: '3×5' },
+    { ex: '1760', alias: 'Sentadilla goblet con mancuerna', sets: '3×12' },
+    { ex: '1459', alias: 'Peso muerto rumano con mancuernas', sets: '3×10' },
+    { ex: '0605', alias: 'Elevación de talones en máquina', sets: '4×15' },
+    { ex: '1160', alias: 'Burpees', sets: '3×10' },
   ]},
 ];
 
@@ -504,7 +529,7 @@ function hoy() { const d = new Date(); return d.getFullYear() + '-' + String(d.g
 const doneKey = (pid, dayId) => 'gf.done.' + pid + '.' + dayId + '.' + hoy();
 
 const pesoDe = pid => store.get('gf.peso.' + pid, (PEOPLE.find(p => p.id === pid) || {}).peso || 80);
-const rutinaDe = pid => store.get('gf.rutina.' + pid, null) || JSON.parse(JSON.stringify(RUTINA_BASE));
+const rutinaDe = pid => store.get('gf.rutina.' + pid, null) || JSON.parse(JSON.stringify(pid === 'test' ? RUTINA_TEST : RUTINA_BASE));
 const saveRutina = (pid, r) => store.set('gf.rutina.' + pid, r);
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
