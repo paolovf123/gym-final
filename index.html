@@ -354,22 +354,32 @@
   }
   .more-row { display: flex; justify-content: center; margin-top: .9rem; }
 
-  /* Móvil: las cartas de ejercicios pasan a filas — nombre completo y todo alineado */
+  /* Móvil: grupos como píldoras horizontales y ejercicios en filas a todo el ancho */
   @media (max-width: 640px) {
-    .side { width: 92px; top: 62px; }
-    .side button { font-size: .68rem; padding: .38rem .45rem .32rem; }
-    .side button small { font-size: .56rem; }
+    .split { flex-direction: column; gap: .2rem; }
+    .side {
+      position: static; width: 100%; max-height: none; flex-direction: row;
+      overflow-x: auto; overflow-y: hidden; gap: .35rem; padding: .15rem 0 .5rem;
+      flex-wrap: nowrap; scrollbar-width: none;
+    }
+    .side::-webkit-scrollbar { display: none; }
+    .side button {
+      display: flex; align-items: baseline; gap: .35rem; border-radius: 999px;
+      padding: .42rem .8rem .36rem; font-size: .8rem; white-space: nowrap;
+    }
+    .side button small { font-size: .62rem; }
     .cat-grid { display: flex; flex-direction: column; gap: .45rem; }
-    .cat-card { display: flex; align-items: center; gap: .55rem; padding: .4rem .5rem; border-radius: 12px; width: 100%; }
-    .cat-card .imgbox { width: 56px; height: 56px; flex: none; border-radius: 9px; overflow: hidden; order: 0; }
+    .cat-card { display: flex; align-items: center; gap: .6rem; padding: .45rem .55rem; border-radius: 12px; width: 100%; }
+    .cat-card .imgbox { width: 58px; height: 58px; flex: none; border-radius: 9px; overflow: hidden; order: 0; }
     .cat-card .imgbox img { max-width: none; width: 100%; height: 100%; }
     .cat-card .cc-body { flex: 1; min-width: 0; padding: 0; order: 1; }
-    .cat-card .cc-name { -webkit-line-clamp: 3; font-size: .8rem; }
+    .cat-card .cc-name { font-size: .84rem; }
+    .cat-card .cc-meta { font-size: .7rem; }
     .cc-info {
-      position: static; order: 2; flex: none;
-      background: var(--soft); color: var(--muted); border-color: var(--line);
+      position: static; order: 2; flex: none; width: 32px; height: 32px;
+      background: var(--soft); color: var(--muted); border-color: var(--line); font-size: .85rem;
     }
-    .cc-add { position: static; order: 3; flex: none; }
+    .cc-add { position: static; order: 3; flex: none; width: 32px; height: 32px; font-size: 1rem; }
   }
 
   /* ---------- Sello + celebración ---------- */
