@@ -89,6 +89,16 @@
   }
 
   /* ---------- Menú lateral (drawer) ---------- */
+  .edge-zone { position: fixed; left: 0; top: 0; bottom: 0; width: 18px; z-index: 129; }
+  .edge-hint {
+    position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 128;
+    width: 6px; height: 130px; border-radius: 0 6px 6px 0;
+    background: color-mix(in srgb, var(--accent) 55%, transparent);
+    pointer-events: none; transition: opacity .25s; animation: edgePulse 2.4s ease-in-out infinite;
+  }
+  .edge-hint.oculto { opacity: 0; animation: none; }
+  @keyframes edgePulse { 50% { background: color-mix(in srgb, var(--accent) 90%, transparent); } }
+  @media (hover: none) { .edge-hint, .edge-zone { display: none; } }
   .drawer-bg {
     position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 130;
     opacity: 0; pointer-events: none; transition: opacity .25s;
@@ -476,6 +486,8 @@
   </div>
 </div>
 
+<div class="edge-zone" id="edge-zone" aria-hidden="true"></div>
+<div class="edge-hint" id="edge-hint" aria-hidden="true"></div>
 <div class="drawer-bg" id="drawer-bg"></div>
 <aside class="drawer" id="drawer" aria-label="Menú principal">
   <p class="dh">Gym<br><em>Final</em></p>
@@ -646,14 +658,33 @@ const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(
 const drawerEl = document.getElementById('drawer');
 const drawerBg = document.getElementById('drawer-bg');
 const menuBtn = document.getElementById('menu-btn');
+const edgeZone = document.getElementById('edge-zone');
+const edgeHint = document.getElementById('edge-hint');
+let cierreTimer = null;
 
-function setDrawer(open) {
+/* modal=true: con fondo oscuro (☰ o táctil). modal=false: por hover en el borde. */
+function setDrawer(open, modal) {
   drawerEl.classList.toggle('open', open);
-  drawerBg.classList.toggle('open', open);
+  drawerBg.classList.toggle('open', open && modal !== false);
   menuBtn.setAttribute('aria-expanded', String(open));
+  edgeHint.classList.toggle('oculto', open);
 }
-menuBtn.addEventListener('click', () => setDrawer(!drawerEl.classList.contains('open')));
+menuBtn.addEventListener('click', () => setDrawer(!drawerEl.classList.contains('open'), true));
 drawerBg.addEventListener('click', () => setDrawer(false));
+
+/* Aparece al acercar el puntero al borde izquierdo; se esconde al alejarlo */
+edgeZone.addEventListener('mouseenter', () => {
+  clearTimeout(cierreTimer);
+  setDrawer(true, false);
+});
+drawerEl.addEventListener('mouseenter', () => clearTimeout(cierreTimer));
+drawerEl.addEventListener('mouseleave', () => {
+  cierreTimer = setTimeout(() => setDrawer(false), 250);
+});
+edgeZone.addEventListener('mouseleave', () => {
+  cierreTimer = setTimeout(() => { if (!drawerEl.matches(':hover')) setDrawer(false); }, 350);
+});
+edgeZone.addEventListener('touchstart', () => setDrawer(true, true), { passive: true });
 drawerEl.addEventListener('click', e => {
   const b = e.target.closest('[data-sec]');
   if (!b) return;
