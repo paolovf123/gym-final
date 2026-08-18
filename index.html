@@ -57,13 +57,20 @@
   }
   .ticker b { color: var(--ink); font-weight: 400; }
 
-  /* ---------- Tabs ---------- */
+  /* ---------- Barra superior: menú + tabs ---------- */
   .tabs-wrap {
     position: sticky; top: 0; z-index: 40; margin: 0 -1rem; padding: .6rem 1rem;
     background: color-mix(in srgb, var(--bg) 82%, transparent);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   }
-  .tabs { display: flex; gap: .45rem; overflow-x: auto; scrollbar-width: none; max-width: 700px; margin: 0 auto; padding: .15rem; }
+  .topbar { display: flex; gap: .5rem; align-items: center; max-width: 700px; margin: 0 auto; }
+  .menu-btn {
+    flex: none; width: 44px; height: 42px; border-radius: 12px; border: 1px solid var(--line);
+    background: var(--card); color: var(--ink); font-size: 1.15rem; cursor: pointer;
+    transition: transform .15s, border-color .2s;
+  }
+  .menu-btn:active { transform: scale(.92); border-color: var(--accent); }
+  .tabs { flex: 1; display: flex; gap: .45rem; overflow-x: auto; scrollbar-width: none; padding: .15rem; align-items: center; }
   .tabs::-webkit-scrollbar { display: none; }
   .tab {
     flex: none; border: 1px solid var(--line); background: var(--card); color: var(--ink);
@@ -76,6 +83,44 @@
   .tab .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--tc, var(--accent)); }
   .tab[aria-pressed="true"] { background: var(--tc, var(--accent)); border-color: var(--tc, var(--accent)); color: #101014; }
   .tab[aria-pressed="true"] .dot { background: #101014; }
+  .sec-label {
+    font-family: var(--display); text-transform: uppercase; font-style: italic;
+    letter-spacing: .1em; font-size: 1.25rem; padding: .2rem .3rem; color: var(--ink);
+  }
+
+  /* ---------- Menú lateral (drawer) ---------- */
+  .drawer-bg {
+    position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 130;
+    opacity: 0; pointer-events: none; transition: opacity .25s;
+    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+  }
+  .drawer-bg.open { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed; top: 0; left: 0; bottom: 0; width: min(78vw, 300px);
+    background: var(--card); border-right: 1px solid var(--line); z-index: 131;
+    transform: translateX(-105%); transition: transform .28s cubic-bezier(.2,.8,.2,1);
+    padding: 1.3rem 1rem 1.1rem; display: flex; flex-direction: column; gap: .45rem;
+    box-shadow: var(--shadow);
+  }
+  .drawer.open { transform: none; }
+  .drawer .dh {
+    font-family: var(--display); font-style: italic; text-transform: uppercase;
+    font-size: 1.9rem; margin: 0 0 1rem; letter-spacing: .06em; line-height: 1;
+  }
+  .drawer .dh em { color: var(--accent); font-style: italic; }
+  .drawer button {
+    display: flex; align-items: center; gap: .75rem; text-align: left;
+    border: 1px solid transparent; background: transparent; color: var(--ink);
+    border-radius: 14px; padding: .7rem .75rem; font-size: 1rem; font-weight: 650;
+    cursor: pointer; font-family: inherit; transition: background .2s, border-color .2s, color .2s;
+  }
+  .drawer button .ic {
+    flex: none; width: 38px; height: 38px; border-radius: 11px; background: var(--soft);
+    display: grid; place-items: center; font-size: 1.05rem;
+  }
+  .drawer button[aria-pressed="true"] { background: var(--soft); border-color: var(--line); color: var(--accent); }
+  .drawer button small { display: block; font-weight: 400; font-size: .72rem; color: var(--muted); }
+  .drawer .dnote { margin-top: auto; font-size: .7rem; color: var(--muted); }
 
   /* ---------- Cards ---------- */
   main { display: flex; flex-direction: column; gap: 1.1rem; padding-top: 1rem; }
@@ -122,24 +167,6 @@
     font-family: var(--display); font-weight: 400; letter-spacing: .12em; text-transform: uppercase;
     color: var(--pc, var(--accent)); margin-right: .4rem; font-size: .8rem;
   }
-  .rules ul { margin: .55rem 0 0; padding-left: 1.15rem; }
-  .rules li { margin: .34rem 0; font-size: .91rem; }
-  .rules li::marker { color: var(--accent); }
-
-  /* ---------- CTA del home ---------- */
-  .cta-row { display: flex; gap: .6rem; margin-top: .9rem; flex-wrap: wrap; }
-  .cta {
-    flex: 1 1 180px; border: 1px solid var(--line); background: var(--soft); color: var(--ink);
-    border-radius: 16px; padding: 1rem; cursor: pointer; text-align: left;
-    transition: transform .15s, border-color .2s; font-family: inherit;
-  }
-  .cta:active { transform: scale(.97); border-color: var(--accent); }
-  .cta b {
-    display: block; font-family: var(--display); font-weight: 400; text-transform: uppercase;
-    font-style: italic; letter-spacing: .07em; font-size: 1.35rem; color: var(--accent);
-  }
-  .cta span { font-size: .8rem; color: var(--muted); }
-  .cta.alt b { color: var(--ink); }
 
   /* ---------- Rutinas ---------- */
   .rut-head { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; margin: .4rem 0 0; }
@@ -241,7 +268,7 @@
   .bd-empty { font-size: .84rem; color: var(--muted); background: var(--soft); border-radius: 10px; padding: .6rem .8rem; margin-top: .6rem; }
   .chip .n { opacity: .7; font-weight: 400; }
 
-  /* ---------- Catálogo (barra lateral) ---------- */
+  /* ---------- Catálogo (barra lateral de grupos) ---------- */
   .search {
     width: 100%; background: var(--soft); border: 1px solid var(--line); color: var(--ink);
     border-radius: 12px; padding: .6rem .9rem; font-size: .95rem; font-family: inherit;
@@ -307,7 +334,7 @@
     z-index: 4; animation: glowPulse 1.15s ease-out forwards;
   }
   .card.celebrate .bar i { animation: barFlash 1s ease; }
-  .cf-layer { position: fixed; inset: 0; pointer-events: none; z-index: 110; overflow: hidden; }
+  .cf-layer { position: fixed; inset: 0; pointer-events: none; z-index: 150; overflow: hidden; }
   .cf { position: absolute; display: block; animation: cfall 1.6s both; }
 
   /* ---------- Modal ---------- */
@@ -347,7 +374,7 @@
   .quickadd { width: 100%; margin-bottom: .6rem; }
 
   /* ---------- Diálogos ---------- */
-  .dlg-bg { place-items: center; z-index: 100; }
+  .dlg-bg { place-items: center; z-index: 140; }
   .dialog {
     width: min(92vw, 400px); background: var(--card); border: 1px solid var(--line); border-radius: 20px;
     padding: 1.2rem; animation: slideUp .25s cubic-bezier(.2,.8,.2,1); box-shadow: var(--shadow);
@@ -367,7 +394,7 @@
 
   /* ---------- Toast ---------- */
   .toast {
-    position: fixed; left: 50%; bottom: 5.4rem; transform: translateX(-50%); z-index: 120;
+    position: fixed; left: 50%; bottom: 5.4rem; transform: translateX(-50%); z-index: 160;
     background: var(--ink); color: #101014; font-weight: 700; font-size: .85rem;
     border-radius: 999px; padding: .55rem 1.1rem; box-shadow: var(--shadow);
     animation: toastIn .25s, fadeOut .3s 2.2s forwards; max-width: 90vw; text-align: center;
@@ -442,7 +469,21 @@
   </header>
 </div>
 
-<div class="tabs-wrap"><nav class="tabs" id="tabs" aria-label="Elegir vista"></nav></div>
+<div class="tabs-wrap">
+  <div class="topbar">
+    <button class="menu-btn" id="menu-btn" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <nav class="tabs" id="tabs" aria-label="Elegir rutina"></nav>
+  </div>
+</div>
+
+<div class="drawer-bg" id="drawer-bg"></div>
+<aside class="drawer" id="drawer" aria-label="Menú principal">
+  <p class="dh">Gym<br><em>Final</em></p>
+  <button data-sec="rutinas"><span class="ic">🏋️</span><span>Rutinas<small>Tus rutinas y la de prueba</small></span></button>
+  <button data-sec="catalogo"><span class="ic">≡</span><span>Catálogo<small>1299 ejercicios por músculo</small></span></button>
+  <button data-sec="macros"><span class="ic">%</span><span>Macros<small>Proteína, calorías, grasas, carbos</small></span></button>
+  <p class="dnote">Ejercicios: dataset hasaneyldrm · Medios © Gym visual</p>
+</aside>
 
 <div class="wrap"><main id="app"></main></div>
 
@@ -555,7 +596,8 @@ const store = {
 };
 
 const state = {
-  view: store.get('gf.view', 'general'),
+  seccion: store.get('gf.seccion', 'rutinas'),
+  rutSel: store.get('gf.rutSel', 'test'),
   catGrupo: 'todos',
   catQ: '',
   catLimit: 36,
@@ -563,7 +605,7 @@ const state = {
   addTarget: null,
   builder: null,
 };
-if (!['general', 'test', 'mis', 'crear', 'catalogo'].includes(state.view)) state.view = 'general';
+if (!['rutinas', 'catalogo', 'macros'].includes(state.seccion)) state.seccion = 'rutinas';
 
 function hoy() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
 const doneKey = key => 'gf.done.' + key + '.' + hoy();
@@ -584,8 +626,9 @@ function deleteRutina(rid) {
   if (rid === 'test') { store.del('gf.rutina.test'); return; }
   store.set('gf.rutinas', misRutinas().filter(r => r.id !== rid));
 }
+if (state.rutSel !== 'crear' && !getRutina(state.rutSel)) state.rutSel = 'test';
 
-/* Borrador del creador de rutinas (sobrevive si cambias de pestaña) */
+/* Borrador del creador de rutinas (sobrevive si cambias de sección) */
 function nuevoBorrador() {
   return { fase: 1, nombre: '', nDias: 3, dias: [], diaSel: 'd1', grupo: 'todos', q: '', limit: 36 };
 }
@@ -598,59 +641,50 @@ function limpiarBorrador() { state.builder = null; store.del('gf.borrador'); }
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-/* ---------- Render: tabs ---------- */
+/* ---------- Menú lateral ---------- */
+
+const drawerEl = document.getElementById('drawer');
+const drawerBg = document.getElementById('drawer-bg');
+const menuBtn = document.getElementById('menu-btn');
+
+function setDrawer(open) {
+  drawerEl.classList.toggle('open', open);
+  drawerBg.classList.toggle('open', open);
+  menuBtn.setAttribute('aria-expanded', String(open));
+}
+menuBtn.addEventListener('click', () => setDrawer(!drawerEl.classList.contains('open')));
+drawerBg.addEventListener('click', () => setDrawer(false));
+drawerEl.addEventListener('click', e => {
+  const b = e.target.closest('[data-sec]');
+  if (!b) return;
+  state.seccion = b.dataset.sec;
+  state.addTarget = null;
+  state.editDays = {};
+  store.set('gf.seccion', state.seccion);
+  setDrawer(false);
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ---------- Render: barra superior ---------- */
 
 const tabsEl = document.getElementById('tabs');
 const appEl = document.getElementById('app');
 
 function renderTabs() {
+  drawerEl.querySelectorAll('[data-sec]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.sec === state.seccion)));
+  if (state.seccion !== 'rutinas') {
+    tabsEl.innerHTML = '<span class="sec-label">' + (state.seccion === 'catalogo' ? 'Catálogo' : 'Macros') + '</span>';
+    return;
+  }
   tabsEl.innerHTML =
-    '<button class="tab" data-view="general" aria-pressed="' + (state.view === 'general') + '">General</button>' +
-    '<button class="tab" data-view="test" style="--tc:#9AA0A6" aria-pressed="' + (state.view === 'test') + '"><span class="dot"></span>Rutina Test</button>' +
-    '<button class="tab" data-view="mis" aria-pressed="' + (state.view === 'mis') + '">Mis rutinas</button>' +
-    '<button class="tab" data-view="crear" aria-pressed="' + (state.view === 'crear') + '">＋ Crear rutina</button>' +
-    '<button class="tab" data-view="catalogo" aria-pressed="' + (state.view === 'catalogo') + '">Catálogo</button>';
+    todasRutinas().map(r =>
+      '<button class="tab" data-rut="' + r.id + '" style="--tc:' + r.color + '" aria-pressed="' + (state.rutSel === r.id) + '"><span class="dot"></span>' + esc(r.nombre) + '</button>'
+    ).join('') +
+    '<button class="tab" data-rut="crear" aria-pressed="' + (state.rutSel === 'crear') + '">＋ Crear</button>';
 }
 
-/* ---------- Render: general (home) ---------- */
-
-function renderGeneral() {
-  const peso = store.get('gf.peso', 90);
-  const m = macros(peso);
-  let h = '<section class="card"><span class="wm">GO</span><h2>Empieza aquí</h2>' +
-    '<div class="cta-row">' +
-    '<button class="cta" data-goto="crear"><b>＋ Crear rutina</b><span>Nombre, días y ejercicios elegidos de manera interactiva</span></button>' +
-    '<button class="cta alt" data-goto="catalogo"><b>≡ Catálogo</b><span>' + window.CATALOGO.length + ' ejercicios por grupo muscular, con animación e instrucciones</span></button>' +
-    '</div></section>';
-
-  h += '<section class="card rules"><span class="wm">!</span><h2>Cómo funciona</h2><ul>' +
-    '<li><strong>Crear rutina:</strong> eliges nombre y días, y luego armas cada día tocando ejercicios del catálogo — con barra lateral por grupo muscular.</li>' +
-    '<li><strong>Rutina Test:</strong> una rutina de ejemplo (empuje / jalón / pierna) para probar checks, edición y animaciones.</li>' +
-    '<li><strong>Toca cualquier ejercicio</strong> para ver cómo se hace, y su número de series para cambiarlo.</li>' +
-    '<li><strong>Macros:</strong> se calculan solos con tu peso, aquí abajo.</li>' +
-    '<li><strong>Calentamiento:</strong> 5 min de cardio suave + 1 serie ligera del primer ejercicio.</li>' +
-    '</ul></section>';
-
-  h += '<section class="card"><span class="wm">%</span><h2>Tus macros</h2>' +
-    '<div class="peso-row"><label for="peso-in">Peso</label>' +
-    '<input class="peso-input" id="peso-in" type="number" min="40" max="250" step="0.5" value="' + peso + '" inputmode="decimal"> <span class="note">kg — se recalculan solos</span></div>' +
-    '<div class="macros">' +
-    '<div class="macro"><b>' + m.prot + '</b><span>Proteína (g)</span><small>peso × 2</small></div>' +
-    '<div class="macro"><b>' + m.kcal + '</b><span>Calorías</span><small>proteína × 14</small></div>' +
-    '<div class="macro"><b>' + m.grasa + '</b><span>Grasas (g)</span><small>peso × 0.7</small></div>' +
-    '<div class="macro"><b>' + m.carbs + '</b><span>Carbos (g)</span><small>kcal restantes ÷ 4</small></div>' +
-    '</div>' +
-    '<div class="strip"><b>Pronto</b> Opciones de comidas para cumplir estos macros.</div>' +
-    '</section>';
-
-  h += '<section class="card"><span class="wm">©</span><h2>Créditos</h2>' +
-    '<p class="sub">Ejercicios del dataset <a style="color:var(--accent)" href="https://github.com/hasaneyldrm/exercises-dataset" target="_blank" rel="noopener">hasaneyldrm/exercises-dataset</a>.</p>' +
-    '<p class="note">Imágenes y animaciones © <a style="color:var(--muted)" href="https://gymvisual.com/" target="_blank" rel="noopener">Gym visual</a> — usadas en 180×180 con atribución, según los términos del dataset.</p>' +
-    '</section>';
-  return h;
-}
-
-/* ---------- Render: rutinas guardadas ---------- */
+/* ---------- Render: rutinas ---------- */
 
 function itemRow(it, key, idx, editing) {
   const e = EX[it.ex];
@@ -704,7 +738,8 @@ function dayCard(rut, day) {
     '</section>';
 }
 
-function rutinaCards(rut, esTest) {
+function renderRutina(rut) {
+  const esTest = rut.id === 'test';
   let h = '<section class="card" style="--pc:' + rut.color + '">' +
     '<span class="wm">' + rut.dias.length + 'D</span>' +
     '<div class="rut-head"><p class="rut-name">' + esc(rut.nombre) + '</p>' +
@@ -719,28 +754,31 @@ function rutinaCards(rut, esTest) {
     (esTest ? ' · rutina de ejemplo: edítala sin miedo' : '') + '</p>' +
     '</section>';
   h += rut.dias.map(d => dayCard(rut, d)).join('');
+  h += '<p class="note" style="margin-top:.5rem">Toca un ejercicio para ver cómo se hace y sus series para cambiarlas. Los checks se reinician cada día; todo se guarda en este navegador.</p>';
   return h;
 }
 
-function renderTest() {
-  let h = rutinaCards(rutinaTest(), true);
-  h += '<p class="note" style="margin-top:.5rem">Los checks se reinician cada día. Todo se guarda en este navegador.</p>';
-  return h;
-}
+/* ---------- Render: macros ---------- */
 
-function renderMis() {
-  const list = misRutinas();
-  let h = '<section class="card"><span class="wm">★</span><h2>Mis rutinas</h2>' +
-    '<p class="sub">' + (list.length ? 'Tus rutinas creadas. Toca «✎ Editar» en un día para modificarlo.' : 'Aún no tienes rutinas propias.') + '</p>' +
-    '<div class="day-actions" style="margin-top:.2rem"><button class="btn primary" data-goto="crear">＋ Crear rutina</button></div>' +
+function renderMacros() {
+  const peso = store.get('gf.peso', 90);
+  const m = macros(peso);
+  let h = '<section class="card"><span class="wm">%</span><h2>Tus macros</h2>' +
+    '<div class="peso-row"><label for="peso-in">Peso</label>' +
+    '<input class="peso-input" id="peso-in" type="number" min="40" max="250" step="0.5" value="' + peso + '" inputmode="decimal"> <span class="note">kg — se recalculan solos</span></div>' +
+    '<div class="macros">' +
+    '<div class="macro"><b>' + m.prot + '</b><span>Proteína (g)</span><small>peso × 2</small></div>' +
+    '<div class="macro"><b>' + m.kcal + '</b><span>Calorías</span><small>proteína × 14</small></div>' +
+    '<div class="macro"><b>' + m.grasa + '</b><span>Grasas (g)</span><small>peso × 0.7</small></div>' +
+    '<div class="macro"><b>' + m.carbs + '</b><span>Carbos (g)</span><small>kcal restantes ÷ 4</small></div>' +
+    '</div>' +
+    '<div class="strip"><b>Pronto</b> Opciones de comidas para cumplir estos macros.</div>' +
     '</section>';
-  if (list.length) {
-    h += list.map(r => rutinaCards(r, false)).join('');
-    h += '<p class="note" style="margin-top:.5rem">Los checks se reinician cada día. Tus rutinas se guardan en este navegador.</p>';
-  } else {
-    h += '<section class="card"><span class="wm">?</span><h2>¿Cómo se ve una?</h2>' +
-      '<p class="sub" style="margin-bottom:0">Entra a la <strong>Rutina Test</strong> para ver una ya armada, o crea la tuya con el botón de arriba.</p></section>';
-  }
+
+  h += '<section class="card"><span class="wm">©</span><h2>Créditos</h2>' +
+    '<p class="sub">Ejercicios del dataset <a style="color:var(--accent)" href="https://github.com/hasaneyldrm/exercises-dataset" target="_blank" rel="noopener">hasaneyldrm/exercises-dataset</a>.</p>' +
+    '<p class="note">Imágenes y animaciones © <a style="color:var(--muted)" href="https://gymvisual.com/" target="_blank" rel="noopener">Gym visual</a> — usadas en 180×180 con atribución, según los términos del dataset.</p>' +
+    '</section>';
   return h;
 }
 
@@ -865,7 +903,7 @@ function renderCrear() {
   let h = '<section class="card"><span class="wm">2/2</span>' +
     '<div class="rut-head"><p class="rut-name" data-bd-rename title="Tocar para renombrar">' + esc(b.nombre || 'Mi rutina') + '</p>' +
     '<span class="rut-actions"><button class="btn ghost" data-bd-back>← Días</button></span></div>' +
-    '<p class="sub">Paso 2 de 2 — elige un día y toca ejercicios del catálogo de abajo para agregarlos. Llevas ' + total + ' en total.</p>' +
+    '<p class="sub" id="bd-sub">Paso 2 de 2 — elige un día y toca ejercicios del catálogo de abajo para agregarlos. Llevas ' + total + ' en total.</p>' +
     '<div class="chips">' + b.dias.map(d =>
       '<button class="chip" data-bd-day="' + d.id + '" aria-pressed="' + (d.id === b.diaSel) + '">' + esc(d.dia) + ' <span class="n">(' + d.items.length + ')</span></button>'
     ).join('') + '</div>' +
@@ -905,8 +943,8 @@ function refreshBuilderPanel() {
   const target = appEl.querySelector('#bd-target');
   const day = b.dias.find(d => d.id === b.diaSel);
   if (target && day) target.textContent = day.dia;
-  const sub = appEl.querySelector('.card .sub');
-  if (sub) sub.innerHTML = 'Paso 2 de 2 — elige un día y toca ejercicios del catálogo de abajo para agregarlos. Llevas ' + b.dias.reduce((a, d) => a + d.items.length, 0) + ' en total.';
+  const sub = appEl.querySelector('#bd-sub');
+  if (sub) sub.textContent = 'Paso 2 de 2 — elige un día y toca ejercicios del catálogo de abajo para agregarlos. Llevas ' + b.dias.reduce((a, d) => a + d.items.length, 0) + ' en total.';
 }
 
 function refreshBuilderGrid() {
@@ -928,12 +966,13 @@ function refreshBuilderGrid() {
 
 function render() {
   renderTabs();
-  appEl.innerHTML =
-    state.view === 'test' ? renderTest() :
-    state.view === 'mis' ? renderMis() :
-    state.view === 'crear' ? renderCrear() :
-    state.view === 'catalogo' ? renderCatalogo() :
-    renderGeneral();
+  if (state.seccion === 'catalogo') appEl.innerHTML = renderCatalogo();
+  else if (state.seccion === 'macros') appEl.innerHTML = renderMacros();
+  else if (state.rutSel === 'crear') appEl.innerHTML = renderCrear();
+  else {
+    const rut = getRutina(state.rutSel) || rutinaTest();
+    appEl.innerHTML = renderRutina(rut);
+  }
   appEl.querySelectorAll('.card').forEach((c, i) => { c.style.animationDelay = Math.min(i * 70, 500) + 'ms'; });
 }
 
@@ -972,9 +1011,9 @@ function dlgExito(rut) {
   dlgRoot.innerHTML = '<div class="modal-bg dlg-bg" data-dlg-bg><div class="dialog" style="--pc:' + rut.color + '">' +
     '<p class="big">🎉</p>' +
     '<h3 style="text-align:center">¡Rutina creada!</h3>' +
-    '<p style="text-align:center">«' + esc(rut.nombre) + '» ya está lista en Mis rutinas.</p>' +
+    '<p style="text-align:center">«' + esc(rut.nombre) + '» ya tiene su propia pestaña arriba.</p>' +
     '<div class="resumen"><span>' + rut.dias.length + ' día' + (rut.dias.length === 1 ? '' : 's') + '</span><span>' + total + ' ejercicios</span></div>' +
-    '<div class="row" style="justify-content:center"><button class="btn primary" data-dlg-cancel>Ver mi rutina</button></div>' +
+    '<div class="row" style="justify-content:center"><button class="btn primary" data-dlg-cancel>¡A entrenar!</button></div>' +
     '</div></div>';
   celebrate(dlgRoot.querySelector('.dialog'), rut.color);
 }
@@ -1005,7 +1044,7 @@ function openEx(exId) {
   const e = EX[exId];
   if (!e) return;
   const steps = (e.steps || []).map(s => '<li>' + esc(s) + '</li>').join('');
-  const enBuilder = state.view === 'crear' && state.builder && state.builder.fase === 2;
+  const enBuilder = state.seccion === 'rutinas' && state.rutSel === 'crear' && state.builder && state.builder.fase === 2;
   const bDay = enBuilder ? state.builder.dias.find(d => d.id === state.builder.diaSel) : null;
   const t = state.addTarget;
   const ruts = todasRutinas();
@@ -1085,8 +1124,10 @@ modalRoot.addEventListener('click', ev => {
     if (addExTo(t.rid, t.dayId, modalRoot.dataset.ex)) {
       closeModal();
       state.addTarget = null;
-      state.view = t.volver;
-      store.set('gf.view', state.view);
+      state.seccion = 'rutinas';
+      state.rutSel = t.rid;
+      store.set('gf.seccion', 'rutinas');
+      store.set('gf.rutSel', t.rid);
       render();
     }
     return;
@@ -1108,7 +1149,7 @@ modalRoot.addEventListener('click', ev => {
   if (dbtn) {
     if (addExTo(dbtn.dataset.rid, dbtn.dataset.addd, modalRoot.dataset.ex)) {
       closeModal();
-      if (state.view !== 'catalogo') render();
+      if (state.seccion === 'rutinas' && state.rutSel === dbtn.dataset.rid) render();
     }
     return;
   }
@@ -1118,11 +1159,11 @@ modalRoot.addEventListener('click', ev => {
 
 tabsEl.addEventListener('click', e => {
   const b = e.target.closest('.tab');
-  if (!b || b.dataset.view === state.view) return;
-  state.view = b.dataset.view;
+  if (!b || b.dataset.rut === state.rutSel) return;
+  state.rutSel = b.dataset.rut;
   state.editDays = {};
-  if (state.view !== 'catalogo') state.addTarget = null;
-  store.set('gf.view', state.view);
+  state.addTarget = null;
+  store.set('gf.rutSel', state.rutSel);
   render();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
@@ -1193,15 +1234,6 @@ appEl.addEventListener('input', e => {
 appEl.addEventListener('click', e => {
   const open = e.target.closest('[data-open]');
   if (open) { openEx(open.dataset.open); return; }
-
-  const goto = e.target.closest('[data-goto]');
-  if (goto) {
-    state.view = goto.dataset.goto;
-    store.set('gf.view', state.view);
-    render();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    return;
-  }
 
   /* --- Builder --- */
 
@@ -1331,8 +1363,8 @@ appEl.addEventListener('click', e => {
     saveRutina(rut);
     limpiarBorrador();
     state.editDays = {};
-    state.view = 'mis';
-    store.set('gf.view', 'mis');
+    state.rutSel = rut.id;
+    store.set('gf.rutSel', rut.id);
     render();
     window.scrollTo({ top: 0, behavior: 'smooth' });
     dlgExito(rut);
@@ -1343,6 +1375,8 @@ appEl.addEventListener('click', e => {
   if (bdCancel) {
     dlgConfirm('¿Descartar borrador?', 'Se pierde el nombre, los días y los ejercicios elegidos hasta ahora.', () => {
       limpiarBorrador();
+      state.rutSel = 'test';
+      store.set('gf.rutSel', 'test');
       render();
     }, 'Descartar');
     return;
@@ -1437,9 +1471,9 @@ appEl.addEventListener('click', e => {
     const rut = getRutina(rid);
     const day = rut && rut.dias.find(d => d.id === dayId);
     if (!rut || !day) return;
-    state.addTarget = { rid, dayId, rutNombre: rut.nombre, diaNombre: day.dia, volver: state.view };
-    state.view = 'catalogo';
-    store.set('gf.view', 'catalogo');
+    state.addTarget = { rid, dayId, rutNombre: rut.nombre, diaNombre: day.dia };
+    state.seccion = 'catalogo';
+    store.set('gf.seccion', 'catalogo');
     render();
     window.scrollTo({ top: 0, behavior: 'smooth' });
     return;
@@ -1487,8 +1521,10 @@ appEl.addEventListener('click', e => {
   if (delRut) {
     const rut = getRutina(delRut.dataset.delRut);
     if (!rut) return;
-    dlgConfirm('¿Eliminar «' + rut.nombre + '»?', 'Se borra la rutina completa. No se puede deshacer.', () => {
+    dlgConfirm('¿Eliminar «' + rut.nombre + '»?', 'Se borra la rutina completa y su pestaña. No se puede deshacer.', () => {
       deleteRutina(rut.id);
+      state.rutSel = 'test';
+      store.set('gf.rutSel', 'test');
       render();
     }, 'Eliminar');
     return;
@@ -1605,7 +1641,7 @@ timerEl.addEventListener('click', e => {
 });
 stopBtn.addEventListener('click', () => stopTimer(false));
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); dlgClose(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); dlgClose(); setDrawer(false); } });
 
 /* ---------- PWA ---------- */
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
