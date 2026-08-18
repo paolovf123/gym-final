@@ -11,7 +11,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
-<title>Gym Final — Rutinas del crew</title>
+<title>Gym Final — Arma tu rutina</title>
 <style>
   :root {
     --bg: #101114; --card: #17181D; --ink: #F2F1EC; --muted: #8E8F98;
@@ -101,7 +101,10 @@
     font-family: var(--display); text-transform: uppercase; letter-spacing: .12em;
     font-size: .85rem; background: var(--pc, var(--accent)); color: #101014;
     border-radius: 6px; padding: .22rem .6rem .16rem; transform: skewX(-8deg);
+    border: 0; cursor: default;
   }
+  .edit-on .day-tag, .edit-on h2.d-tit { cursor: pointer; }
+  .edit-on h2.d-tit { border-bottom: 1px dashed var(--pc, var(--accent)); }
   .day-count {
     margin-left: auto; font-family: var(--display); font-size: 1.15rem; letter-spacing: .07em;
     color: var(--muted); font-variant-numeric: tabular-nums;
@@ -119,28 +122,27 @@
     font-family: var(--display); font-weight: 400; letter-spacing: .12em; text-transform: uppercase;
     color: var(--pc, var(--accent)); margin-right: .4rem; font-size: .8rem;
   }
-  .warn {
-    margin-top: .9rem; background: var(--warn-bg); color: var(--warn-ink); border-radius: 12px;
-    padding: .65rem .9rem; font-size: .88rem; font-weight: 600;
-  }
   .rules ul { margin: .55rem 0 0; padding-left: 1.15rem; }
   .rules li { margin: .34rem 0; font-size: .91rem; }
   .rules li::marker { color: var(--accent); }
 
-  /* ---------- Persona ---------- */
-  .pname {
+  /* ---------- Rutinas ---------- */
+  .rut-head { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; margin: .4rem 0 0; }
+  .rut-name {
     font-family: var(--display); font-style: italic; text-transform: uppercase;
-    font-size: 2.6rem; line-height: 1; margin: 0 0 .6rem; color: var(--pc, var(--accent));
+    font-size: 2.1rem; line-height: 1; margin: 0; color: var(--pc, var(--accent));
     letter-spacing: .05em;
   }
-  .peso-row { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+  .rut-actions { margin-left: auto; display: flex; gap: .4rem; }
+
+  .peso-row { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; margin-top: .6rem; }
   .peso-row label { font-size: .8rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
   .peso-input {
     width: 90px; background: var(--soft); border: 1px solid var(--line); color: var(--ink);
     border-radius: 10px; padding: .45rem .6rem; font-family: var(--display); font-size: 1.3rem;
     letter-spacing: .05em; text-align: center; font-variant-numeric: tabular-nums;
   }
-  .peso-input:focus { outline: 2px solid var(--pc, var(--accent)); border-color: transparent; }
+  .peso-input:focus { outline: 2px solid var(--accent); border-color: transparent; }
 
   /* ---------- Macros ---------- */
   .macros { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; margin-top: .9rem; }
@@ -148,7 +150,7 @@
   .macro { background: var(--soft); border: 1px solid var(--line); border-radius: 14px; padding: .7rem .8rem .6rem; }
   .macro b {
     display: block; font-family: var(--display); font-weight: 400; font-size: 1.9rem;
-    line-height: 1; color: var(--pc, var(--accent)); font-variant-numeric: tabular-nums; letter-spacing: .03em;
+    line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; letter-spacing: .03em;
   }
   .macro span { display: block; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-top: .2rem; }
   .macro small { display: block; font-size: .68rem; color: var(--muted); margin-top: .1rem; }
@@ -204,8 +206,19 @@
   .btn:active { transform: scale(.95); }
   .btn.primary { background: var(--pc, var(--accent)); border-color: var(--pc, var(--accent)); color: #101014; }
   .btn.ghost { background: transparent; }
+  .btn.danger { color: #FF6B5A; }
   .edit-toggle { margin-left: auto; }
   .day-head .edit-toggle { margin-left: 0; }
+  .empty-day { font-size: .85rem; color: var(--muted); padding: .5rem 0; }
+
+  /* ---------- Crear rutina ---------- */
+  .form-row { margin-top: .8rem; }
+  .form-row label { display: block; font-size: .78rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); margin-bottom: .35rem; }
+  .name-input {
+    width: 100%; background: var(--soft); border: 1px solid var(--line); color: var(--ink);
+    border-radius: 12px; padding: .6rem .9rem; font-size: .95rem; font-family: inherit;
+  }
+  .name-input:focus { outline: 2px solid var(--accent); border-color: transparent; }
 
   /* ---------- Sello + celebración ---------- */
   .stamp {
@@ -229,7 +242,7 @@
     border-radius: 12px; padding: .6rem .9rem; font-size: .95rem; font-family: inherit;
   }
   .search:focus { outline: 2px solid var(--accent); border-color: transparent; }
-  .chips { display: flex; gap: .4rem; overflow-x: auto; padding: .6rem .1rem .2rem; scrollbar-width: none; }
+  .chips { display: flex; gap: .4rem; overflow-x: auto; padding: .6rem .1rem .2rem; scrollbar-width: none; flex-wrap: wrap; }
   .chips::-webkit-scrollbar { display: none; }
   .chip {
     flex: none; border: 1px solid var(--line); background: var(--card); color: var(--ink);
@@ -284,6 +297,7 @@
   .addto { border-top: 1px solid var(--line); margin-top: 1rem; padding-top: .9rem; }
   .addto h4 { font-family: var(--display); font-weight: 400; text-transform: uppercase; letter-spacing: .1em; font-size: .9rem; margin: 0 0 .5rem; color: var(--muted); }
   .addto .chips { padding: .2rem 0; }
+  .quickadd { width: 100%; margin-bottom: .6rem; }
 
   /* ---------- Toast ---------- */
   .toast {
@@ -317,18 +331,6 @@
   .timer .stop { border: 0; background: var(--accent); color: var(--accent-ink); border-radius: 999px; width: 34px; height: 34px; cursor: pointer; font-size: .8rem; }
   .timer.flash { animation: flash .4s ease 3; }
 
-  /* ---------- Tabla ---------- */
-  .tbl-scroll { overflow-x: auto; }
-  table.lista { width: 100%; border-collapse: collapse; margin-top: .7rem; font-size: .9rem; }
-  table.lista th {
-    text-align: left; font-family: var(--display); font-weight: 400; letter-spacing: .1em;
-    text-transform: uppercase; font-size: .78rem; color: var(--muted);
-    padding: 0 .5rem .4rem 0; border-bottom: 1px solid var(--line);
-  }
-  table.lista td { padding: .42rem .5rem .42rem 0; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
-  table.lista tr:last-child td { border-bottom: 0; }
-  .pdot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: .45rem; }
-
   /* ---------- Animaciones ---------- */
   @keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
   @keyframes growX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
@@ -357,7 +359,7 @@
     100% { transform: translate(var(--dx), var(--down)) rotate(var(--rot)); opacity: 0; }
   }
 
-  button:focus-visible, .tab:focus-visible, .search:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button:focus-visible, .tab:focus-visible, .search:focus-visible, .name-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
     html { scroll-behavior: auto; }
@@ -367,10 +369,10 @@
 <body>
 <div class="wrap">
   <header class="hero">
-    <p class="kicker">Smart Fit Perú · Mar / Jue / Sáb</p>
+    <p class="kicker">Arma tu rutina · a tu medida</p>
     <h1>Gym<br><em>Final</em></h1>
     <div class="stripes"></div>
-    <p class="ticker"><span><b>1299</b> ejercicios</span><span><b>5</b> patas</span><span><b>100%</b> personalizable</span></p>
+    <p class="ticker"><span><b>1299</b> ejercicios</span><span><b>∞</b> rutinas</span><span><b>100%</b> personalizable</span></p>
   </header>
 </div>
 
@@ -436,66 +438,33 @@ const MUSC_ES = {
 };
 const muscNombre = t => MUSC_ES[t] || t;
 
-const PEOPLE = [
-  { id: 'pedro',   nombre: 'Pedro',   peso: 82,  color: '#3E8BFF' },
-  { id: 'paolo',   nombre: 'Paolo',   peso: 102, color: '#FFD700' },
-  { id: 'gaykiss', nombre: 'GayKiss', peso: 89,  color: '#6B8E23' },
-  { id: 'cassini', nombre: 'Cassini', peso: 86,  color: '#35D07F' },
-  { id: 'fixer',   nombre: 'Fixer',   peso: 86,  color: '#B08CFF' },
-  { id: 'test',    nombre: 'Test',    peso: 90,  color: '#9AA0A6' },
-];
+const PALETA = ['#3E8BFF', '#FFD700', '#35D07F', '#B08CFF', '#FF6FA5', '#6B8E23', '#00C2D1', '#FF8C42'];
 
-/* Rutina inicial (plantilla) — cada persona la puede editar a su gusto. */
-const RUTINA_BASE = [
-  { id: 'a', dia: 'Martes', titulo: 'Pierna + empuje', items: [
-    { ex: '0739', alias: 'Prensa de piernas 45°', sets: '4×12' },
-    { ex: '0577', alias: 'Press de pecho en máquina', sets: '3×12' },
-    { ex: '2330', alias: 'Jalón al pecho en polea', sets: '3×12' },
-    { ex: '0405', alias: 'Press de hombros sentado con mancuernas', sets: '3×12' },
-    { ex: '0585', alias: 'Extensión de cuádriceps', sets: '3×15' },
-    { ex: '2135', alias: 'Plancha frontal (peso opcional)', sets: '3×30–45"' },
-  ]},
-  { id: 'b', dia: 'Jueves', titulo: 'Espalda + femoral', items: [
-    { ex: '0861', alias: 'Remo sentado en polea', sets: '4×12' },
-    { ex: '0599', alias: 'Curl femoral sentado', sets: '3×12' },
-    { ex: '1299', alias: 'Press inclinado en máquina', sets: '3×12' },
-    { ex: '0818', alias: 'Jalón al pecho, agarre neutro', sets: '3×12' },
-    { ex: '0334', alias: 'Elevaciones laterales con mancuernas', sets: '3×15' },
-    { ex: '1452', alias: 'Crunch en máquina', sets: '3×15' },
-  ]},
-  { id: 'c', dia: 'Sábado', titulo: 'Full body', items: [
-    { ex: '3281', alias: 'Sentadilla en Smith', sets: '4×10' },
-    { ex: '0293', alias: 'Remo con mancuernas', sets: '3×12' },
-    { ex: '0336', alias: 'Zancadas con mancuernas', sets: '3×10/pierna' },
-    { ex: '0289', alias: 'Press de banca con mancuernas', sets: '3×12' },
-    { ex: '0203', alias: 'Face pull (remo posterior con cuerda)', sets: '3×15' },
-    { ex: '0630', alias: 'Escaladores (mountain climbers)', sets: '3×30"' },
-  ]},
-];
-
-/* Rutina de prueba para la pestaña Test — estilo empuje / jalón / pierna,
-   con ejercicios distintos a la plantilla para probar la edición sin miedo. */
-const RUTINA_TEST = [
-  { id: 'a', dia: 'Martes', titulo: 'Empuje (test)', items: [
-    { ex: '0025', alias: 'Press de banca con barra', sets: '4×8' },
-    { ex: '2137', alias: 'Press Arnold con mancuernas', sets: '3×10' },
-    { ex: '0241', alias: 'Extensión de tríceps en polea (barra V)', sets: '3×12' },
-    { ex: '0178', alias: 'Elevaciones laterales en polea', sets: '3×15' },
-  ]},
-  { id: 'b', dia: 'Jueves', titulo: 'Jalón (test)', items: [
-    { ex: '0017', alias: 'Dominadas asistidas', sets: '3×8' },
-    { ex: '0027', alias: 'Remo con barra', sets: '4×10' },
-    { ex: '0313', alias: 'Curl martillo con mancuernas', sets: '3×12' },
-    { ex: '0472', alias: 'Elevación de piernas colgado', sets: '3×12' },
-  ]},
-  { id: 'c', dia: 'Sábado', titulo: 'Pierna (test)', items: [
-    { ex: '0032', alias: 'Peso muerto con barra', sets: '3×5' },
-    { ex: '1760', alias: 'Sentadilla goblet con mancuerna', sets: '3×12' },
-    { ex: '1459', alias: 'Peso muerto rumano con mancuernas', sets: '3×10' },
-    { ex: '0605', alias: 'Elevación de talones en máquina', sets: '4×15' },
-    { ex: '1160', alias: 'Burpees', sets: '3×10' },
-  ]},
-];
+/* Rutina de ejemplo — empuje / jalón / pierna. Se puede editar y restaurar. */
+const RUTINA_TEST = {
+  id: 'test', nombre: 'Rutina Test', color: '#9AA0A6',
+  dias: [
+    { id: 'd1', dia: 'Día 1', titulo: 'Empuje (test)', items: [
+      { ex: '0025', alias: 'Press de banca con barra', sets: '4×8' },
+      { ex: '2137', alias: 'Press Arnold con mancuernas', sets: '3×10' },
+      { ex: '0241', alias: 'Extensión de tríceps en polea (barra V)', sets: '3×12' },
+      { ex: '0178', alias: 'Elevaciones laterales en polea', sets: '3×15' },
+    ]},
+    { id: 'd2', dia: 'Día 2', titulo: 'Jalón (test)', items: [
+      { ex: '0017', alias: 'Dominadas asistidas', sets: '3×8' },
+      { ex: '0027', alias: 'Remo con barra', sets: '4×10' },
+      { ex: '0313', alias: 'Curl martillo con mancuernas', sets: '3×12' },
+      { ex: '0472', alias: 'Elevación de piernas colgado', sets: '3×12' },
+    ]},
+    { id: 'd3', dia: 'Día 3', titulo: 'Pierna (test)', items: [
+      { ex: '0032', alias: 'Peso muerto con barra', sets: '3×5' },
+      { ex: '1760', alias: 'Sentadilla goblet con mancuerna', sets: '3×12' },
+      { ex: '1459', alias: 'Peso muerto rumano con mancuernas', sets: '3×10' },
+      { ex: '0605', alias: 'Elevación de talones en máquina', sets: '4×15' },
+      { ex: '1160', alias: 'Burpees', sets: '3×10' },
+    ]},
+  ],
+};
 
 /* ---------- Macros ----------
    Proteína = peso × 2 (g) · Calorías = proteína × 14 (kcal)
@@ -522,15 +491,30 @@ const state = {
   catQ: '',
   catLimit: 48,
   editDays: {},
+  newDias: 3,
+  addTarget: null,
 };
-if (state.view !== 'general' && state.view !== 'catalogo' && !PEOPLE.some(p => p.id === state.view)) state.view = 'general';
+if (!['general', 'test', 'mis', 'catalogo'].includes(state.view)) state.view = 'general';
 
 function hoy() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
-const doneKey = (pid, dayId) => 'gf.done.' + pid + '.' + dayId + '.' + hoy();
+const doneKey = key => 'gf.done.' + key + '.' + hoy();
 
-const pesoDe = pid => store.get('gf.peso.' + pid, (PEOPLE.find(p => p.id === pid) || {}).peso || 80);
-const rutinaDe = pid => store.get('gf.rutina.' + pid, null) || JSON.parse(JSON.stringify(pid === 'test' ? RUTINA_TEST : RUTINA_BASE));
-const saveRutina = (pid, r) => store.set('gf.rutina.' + pid, r);
+/* Rutinas: la Test vive en su propia clave (restaurable); las creadas, en gf.rutinas */
+const rutinaTest = () => store.get('gf.rutina.test', null) || JSON.parse(JSON.stringify(RUTINA_TEST));
+const misRutinas = () => store.get('gf.rutinas', []);
+const todasRutinas = () => [rutinaTest()].concat(misRutinas());
+const getRutina = rid => rid === 'test' ? rutinaTest() : misRutinas().find(r => r.id === rid);
+function saveRutina(r) {
+  if (r.id === 'test') { store.set('gf.rutina.test', r); return; }
+  const list = misRutinas();
+  const i = list.findIndex(x => x.id === r.id);
+  if (i >= 0) list[i] = r; else list.push(r);
+  store.set('gf.rutinas', list);
+}
+function deleteRutina(rid) {
+  if (rid === 'test') { store.del('gf.rutina.test'); return; }
+  store.set('gf.rutinas', misRutinas().filter(r => r.id !== rid));
+}
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -542,36 +526,34 @@ const appEl = document.getElementById('app');
 function renderTabs() {
   tabsEl.innerHTML =
     '<button class="tab" data-view="general" aria-pressed="' + (state.view === 'general') + '">General</button>' +
-    PEOPLE.map(p =>
-      '<button class="tab" data-view="' + p.id + '" style="--tc:' + p.color + '" aria-pressed="' + (state.view === p.id) + '"><span class="dot"></span>' + p.nombre + '</button>'
-    ).join('') +
+    '<button class="tab" data-view="test" style="--tc:#9AA0A6" aria-pressed="' + (state.view === 'test') + '"><span class="dot"></span>Rutina Test</button>' +
+    '<button class="tab" data-view="mis" aria-pressed="' + (state.view === 'mis') + '">Mis rutinas</button>' +
     '<button class="tab" data-view="catalogo" aria-pressed="' + (state.view === 'catalogo') + '">Catálogo</button>';
 }
 
 /* ---------- Render: general ---------- */
 
 function renderGeneral() {
+  const peso = store.get('gf.peso', 90);
+  const m = macros(peso);
   let h = '<section class="card rules"><span class="wm">!</span><h2>Cómo funciona</h2><ul>' +
-    '<li><strong>Tu rutina es tuya:</strong> en tu pestaña puedes agregar, quitar, reordenar y cambiar las series de cada ejercicio con el botón «Editar».</li>' +
-    '<li><strong>Catálogo:</strong> ' + window.CATALOGO.length + ' ejercicios por grupo muscular, cada uno con animación e instrucciones paso a paso en español.</li>' +
-    '<li><strong>Toca cualquier ejercicio</strong> para ver cómo se hace.</li>' +
-    '<li><strong>Macros:</strong> se calculan solos con tu peso (edítalo en tu pestaña).</li>' +
-    '<li><strong>Calentamiento:</strong> 5 min de bici o elíptica suave + 1 serie ligera del primer ejercicio.</li>' +
-    '<li><strong>Peso correcto:</strong> las últimas 2 reps deben costar sin perder técnica.</li>' +
+    '<li><strong>Rutina Test:</strong> una rutina de ejemplo (empuje / jalón / pierna) para probar todo: checks, edición, series, videos.</li>' +
+    '<li><strong>Mis rutinas:</strong> crea las tuyas — eliges el nombre, cuántos días y qué ejercicios del catálogo va en cada día.</li>' +
+    '<li><strong>Catálogo:</strong> ' + window.CATALOGO.length + ' ejercicios por grupo muscular, con animación e instrucciones en español. Toca cualquiera para verlo y agregarlo a una rutina.</li>' +
+    '<li><strong>Series editables:</strong> toca el número de series de cualquier ejercicio para cambiarlo.</li>' +
+    '<li><strong>Calentamiento:</strong> 5 min de cardio suave + 1 serie ligera del primer ejercicio.</li>' +
     '</ul></section>';
 
-  const rows = PEOPLE.map(p => {
-    const w = pesoDe(p.id);
-    const m = macros(w);
-    return '<tr><td><span class="pdot" style="background:' + p.color + '"></span>' + p.nombre + '</td>' +
-      '<td>' + w + ' kg</td><td>' + m.prot + ' g</td><td>' + m.kcal + '</td><td>' + m.grasa + ' g</td><td>' + m.carbs + ' g</td></tr>';
-  }).join('');
-  h += '<section class="card"><span class="wm">%</span><h2>Macros del crew</h2>' +
-    '<p class="sub">Proteína = peso×2 · Calorías = proteína×14 · Grasas = peso×0.7 · Carbos = calorías restantes ÷ 4.</p>' +
-    '<div class="tbl-scroll"><table class="lista">' +
-    '<thead><tr><th>Quién</th><th>Peso</th><th>Proteína</th><th>Kcal</th><th>Grasas</th><th>Carbos</th></tr></thead>' +
-    '<tbody>' + rows + '</tbody></table></div>' +
-    '<div class="strip"><b>Pronto</b> Opciones de comidas para cumplir tus macros del día.</div>' +
+  h += '<section class="card"><span class="wm">%</span><h2>Tus macros</h2>' +
+    '<div class="peso-row"><label for="peso-in">Peso</label>' +
+    '<input class="peso-input" id="peso-in" type="number" min="40" max="250" step="0.5" value="' + peso + '" inputmode="decimal"> <span class="note">kg — se recalculan solos</span></div>' +
+    '<div class="macros">' +
+    '<div class="macro"><b>' + m.prot + '</b><span>Proteína (g)</span><small>peso × 2</small></div>' +
+    '<div class="macro"><b>' + m.kcal + '</b><span>Calorías</span><small>proteína × 14</small></div>' +
+    '<div class="macro"><b>' + m.grasa + '</b><span>Grasas (g)</span><small>peso × 0.7</small></div>' +
+    '<div class="macro"><b>' + m.carbs + '</b><span>Carbos (g)</span><small>kcal restantes ÷ 4</small></div>' +
+    '</div>' +
+    '<div class="strip"><b>Pronto</b> Opciones de comidas para cumplir estos macros.</div>' +
     '</section>';
 
   h += '<section class="card"><span class="wm">©</span><h2>Créditos</h2>' +
@@ -581,18 +563,18 @@ function renderGeneral() {
   return h;
 }
 
-/* ---------- Render: persona ---------- */
+/* ---------- Render: rutinas ---------- */
 
-function itemRow(it, dayId, idx, checkable, editing) {
+function itemRow(it, key, idx, editing) {
   const e = EX[it.ex];
   if (!e) return '';
-  const done = checkable && (store.get(doneKey(state.view, dayId), [])).includes(idx);
+  const done = (store.get(doneKey(key), [])).includes(idx);
   const nombre = it.alias || e.n;
   const meta = muscNombre(e.t) + ' · ' + eqNombre(e.eq);
-  return '<li class="ex' + (done ? ' done' : '') + '" data-day="' + dayId + '" data-idx="' + idx + '">' +
+  return '<li class="ex' + (done ? ' done' : '') + '" data-day="' + key + '" data-idx="' + idx + '">' +
     '<div class="ex-main">' +
     '<span class="ex-num">' + (idx + 1) + '</span>' +
-    (checkable && !editing ? '<button class="check" aria-label="Marcar hecho: ' + esc(nombre) + '" aria-pressed="' + done + '">✓</button>' : '') +
+    (!editing ? '<button class="check" aria-label="Marcar hecho: ' + esc(nombre) + '" aria-pressed="' + done + '">✓</button>' : '') +
     '<img class="ex-thumb" loading="lazy" src="' + imgURL(e) + '" alt="" data-open="' + e.id + '">' +
     '<span class="ex-info" data-open="' + e.id + '">' +
     '<span class="ex-name">' + esc(nombre) + '</span>' +
@@ -609,52 +591,76 @@ function itemRow(it, dayId, idx, checkable, editing) {
     '</li>';
 }
 
-function dayCard(day, checkable) {
-  const editing = !!state.editDays[day.id];
+function dayCard(rut, day) {
+  const key = rut.id + '.' + day.id;
+  const editing = !!state.editDays[key];
   const total = day.items.length;
-  const done = checkable ? store.get(doneKey(state.view, day.id), []).length : 0;
-  return '<section class="card' + (editing ? ' edit-on' : '') + '" data-daycard="' + day.id + '" data-total="' + total + '">' +
-    '<span class="wm">' + day.id.toUpperCase() + '</span>' +
-    (checkable ? (done >= total && total > 0
-      ? '<div class="stamp" data-stamp="' + day.id + '">Completado</div>'
-      : '<div class="stamp" data-stamp="' + day.id + '" hidden>Completado</div>') : '') +
-    '<div class="day-head"><span class="day-tag">' + esc(day.dia) + '</span><h2>' + esc(day.titulo) + '</h2>' +
-    (checkable ? '<span class="day-count" data-count="' + day.id + '"><b>' + done + '</b>/' + total + '</span>' : '') +
+  const done = store.get(doneKey(key), []).length;
+  return '<section style="--pc:' + rut.color + '" class="card' + (editing ? ' edit-on' : '') + '" data-daycard="' + key + '" data-total="' + total + '">' +
+    '<span class="wm">' + esc(day.id.replace('d', '')) + '</span>' +
+    (total > 0 && done >= total
+      ? '<div class="stamp" data-stamp="' + key + '">Completado</div>'
+      : '<div class="stamp" data-stamp="' + key + '" hidden>Completado</div>') +
+    '<div class="day-head">' +
+    '<span class="day-tag" data-ren-dia title="' + (editing ? 'Tocar para renombrar' : '') + '">' + esc(day.dia) + '</span>' +
+    '<h2 class="d-tit" data-ren-tit>' + esc(day.titulo) + '</h2>' +
+    (total ? '<span class="day-count" data-count="' + key + '"><b>' + done + '</b>/' + total + '</span>' : '') +
     '</div>' +
-    (checkable ? '<div class="bar"><i data-bar="' + day.id + '" style="width:' + (total ? Math.round(done / total * 100) : 0) + '%"></i></div>' : '') +
-    '<ul class="ex-list">' + day.items.map((it, i) => itemRow(it, day.id, i, checkable, editing)).join('') + '</ul>' +
+    (total ? '<div class="bar"><i data-bar="' + key + '" style="width:' + Math.round(done / total * 100) + '%"></i></div>' : '') +
+    (total
+      ? '<ul class="ex-list">' + day.items.map((it, i) => itemRow(it, key, i, editing)).join('') + '</ul>'
+      : '<p class="empty-day">Sin ejercicios aún — toca «✎ Editar» y luego «+ Agregar ejercicio» para elegirlos del catálogo.</p>') +
     '<div class="day-actions">' +
-    (editing ? '<button class="btn" data-add="' + day.id + '">+ Agregar ejercicio</button>' : '') +
-    '<button class="btn ghost edit-toggle" data-edit="' + day.id + '">' + (editing ? '✓ Listo' : '✎ Editar') + '</button>' +
+    (editing ? '<button class="btn primary" data-add="' + key + '">+ Agregar ejercicio</button>' : '') +
+    '<button class="btn ghost edit-toggle" data-edit="' + key + '">' + (editing ? '✓ Listo' : '✎ Editar') + '</button>' +
     '</div>' +
     '</section>';
 }
 
-function renderPerson(p) {
-  const peso = pesoDe(p.id);
-  const m = macros(peso);
-  let h = '<section class="card" style="--pc:' + p.color + '"><span class="wm">' + peso + '</span>' +
-    '<p class="pname">' + p.nombre + '</p>' +
-    '<div class="peso-row"><label for="peso-in">Peso</label>' +
-    '<input class="peso-input" id="peso-in" type="number" min="40" max="250" step="0.5" value="' + peso + '" inputmode="decimal"> <span class="note">kg — tus macros se recalculan solos</span></div>' +
-    '<div class="macros">' +
-    '<div class="macro"><b>' + m.prot + '</b><span>Proteína (g)</span><small>peso × 2</small></div>' +
-    '<div class="macro"><b>' + m.kcal + '</b><span>Calorías</span><small>proteína × 14</small></div>' +
-    '<div class="macro"><b>' + m.grasa + '</b><span>Grasas (g)</span><small>peso × 0.7</small></div>' +
-    '<div class="macro"><b>' + m.carbs + '</b><span>Carbos (g)</span><small>kcal restantes ÷ 4</small></div>' +
-    '</div>' +
-    '<div class="strip"><b>Pronto</b> Opciones de comidas para cumplir estos macros.</div>' +
+function rutinaCards(rut, esTest) {
+  let h = '<section class="card" style="--pc:' + rut.color + '">' +
+    '<span class="wm">' + rut.dias.length + 'D</span>' +
+    '<div class="rut-head"><p class="rut-name">' + esc(rut.nombre) + '</p>' +
+    '<span class="rut-actions">' +
+    (esTest
+      ? '<button class="btn ghost" data-reset-test>↺ Restaurar</button>'
+      : '<button class="btn ghost" data-ren-rut="' + rut.id + '">✎ Nombre</button>' +
+        '<button class="btn ghost danger" data-del-rut="' + rut.id + '">🗑 Eliminar</button>') +
+    '</span></div>' +
+    '<p class="sub" style="margin-bottom:0">' + rut.dias.length + ' día' + (rut.dias.length === 1 ? '' : 's') + ' · ' +
+    rut.dias.reduce((a, d) => a + d.items.length, 0) + ' ejercicios' +
+    (esTest ? ' · rutina de ejemplo: edítala sin miedo' : '') + '</p>' +
+    '</section>';
+  h += rut.dias.map(d => dayCard(rut, d)).join('');
+  return h;
+}
+
+function renderTest() {
+  let h = rutinaCards(rutinaTest(), true);
+  h += '<p class="note" style="margin-top:.5rem">Los checks se reinician cada día. Todo se guarda en este navegador.</p>';
+  return h;
+}
+
+function renderMis() {
+  const list = misRutinas();
+  let h = '<section class="card"><span class="wm">＋</span><h2>Crear rutina</h2>' +
+    '<p class="sub">Elige nombre y cantidad de días; luego agrega los ejercicios de cada día desde el catálogo.</p>' +
+    '<div class="form-row"><label for="rut-nombre">Nombre</label>' +
+    '<input class="name-input" id="rut-nombre" type="text" maxlength="40" placeholder="Ej. Push Pull Legs, Full body 3 días..."></div>' +
+    '<div class="form-row"><label>¿Cuántos días por semana?</label>' +
+    '<div class="chips">' + [1, 2, 3, 4, 5, 6, 7].map(n =>
+      '<button class="chip" data-ndias="' + n + '" aria-pressed="' + (state.newDias === n) + '">' + n + (n === 1 ? ' día' : ' días') + '</button>'
+    ).join('') + '</div></div>' +
+    '<div class="day-actions"><button class="btn primary" data-crear-rutina>Crear rutina</button></div>' +
     '</section>';
 
-  if (p.id === 'cassini') {
-    h += '<section class="card" style="--pc:' + p.color + ';padding:.85rem 1.2rem"><div class="warn" style="margin-top:0">Escoliosis: máquinas guiadas primero, técnica antes que peso, nada de barra sobre la espalda ni giros con carga. Cero dolor: si algo molesta, cámbialo desde el catálogo.</div></section>';
+  if (!list.length) {
+    h += '<section class="card"><span class="wm">?</span><h2>Aún no tienes rutinas</h2>' +
+      '<p class="sub" style="margin-bottom:0">Crea la primera arriba, o entra a la <strong>Rutina Test</strong> para ver cómo funciona una ya armada.</p></section>';
+  } else {
+    h += list.map(r => rutinaCards(r, false)).join('');
+    h += '<p class="note" style="margin-top:.5rem">Los checks se reinician cada día. Tus rutinas se guardan en este navegador.</p>';
   }
-
-  const rut = rutinaDe(p.id);
-  h += rut.map(d => dayCard(d, true)).join('').replace(/<section class="card/g, '<section style="--pc:' + p.color + '" class="card');
-
-  h += '<div class="day-actions"><button class="btn ghost" data-reset-rutina>↺ Restaurar rutina original</button></div>';
-  h += '<p class="note" style="margin-top:.5rem">Los checks se reinician cada día. Tu rutina y tu peso se guardan en este navegador.</p>';
   return h;
 }
 
@@ -670,10 +676,22 @@ function filtrarCatalogo() {
   });
 }
 
+function catGridHTML(list, shown) {
+  return shown.map(e =>
+    '<button class="cat-card" data-open="' + e.id + '">' +
+    '<img loading="lazy" src="' + imgURL(e) + '" alt="">' +
+    '<span class="cc-body"><span class="cc-name">' + esc(e.n) + '</span>' +
+    '<span class="cc-meta">' + esc(muscNombre(e.t)) + ' · ' + esc(eqNombre(e.eq)) + '</span></span>' +
+    '</button>'
+  ).join('');
+}
+
 function renderCatalogo() {
   const list = filtrarCatalogo();
   const shown = list.slice(0, state.catLimit);
+  const t = state.addTarget;
   let h = '<section class="card"><span class="wm">≡</span><h2>Catálogo</h2>' +
+    (t ? '<div class="strip" style="margin:.6rem 0 .3rem"><b>Agregando</b> Toca un ejercicio para sumarlo a ' + esc(t.diaNombre) + ' de «' + esc(t.rutNombre) + '».</div>' : '') +
     '<p class="sub">' + window.CATALOGO.length + ' ejercicios por grupo muscular. Toca uno para ver la animación, las instrucciones y agregarlo a una rutina.</p>' +
     '<input class="search" id="cat-q" type="search" placeholder="Buscar ejercicio (ej. press, curl, squat...)" value="' + esc(state.catQ) + '">' +
     '<div class="chips" id="cat-chips">' +
@@ -681,15 +699,7 @@ function renderCatalogo() {
     GRUPOS.map(g => '<button class="chip" data-grupo="' + g.key + '" aria-pressed="' + (state.catGrupo === g.key) + '">' + g.nombre + '</button>').join('') +
     '</div>' +
     '<p class="cat-count">' + list.length + ' ejercicios' + (state.catGrupo !== 'todos' ? ' en ' + grupoNombre(state.catGrupo) : '') + (state.catQ ? ' con «' + esc(state.catQ) + '»' : '') + '</p>' +
-    '<div class="cat-grid">' +
-    shown.map(e =>
-      '<button class="cat-card" data-open="' + e.id + '">' +
-      '<img loading="lazy" src="' + imgURL(e) + '" alt="">' +
-      '<span class="cc-body"><span class="cc-name">' + esc(e.n) + '</span>' +
-      '<span class="cc-meta">' + esc(muscNombre(e.t)) + ' · ' + esc(eqNombre(e.eq)) + '</span></span>' +
-      '</button>'
-    ).join('') +
-    '</div>' +
+    '<div class="cat-grid">' + catGridHTML(list, shown) + '</div>' +
     (list.length > shown.length
       ? '<div class="more-row"><button class="btn" data-more>Mostrar más (' + (list.length - shown.length) + ' restantes)</button></div>'
       : '') +
@@ -702,8 +712,11 @@ function renderCatalogo() {
 
 function render() {
   renderTabs();
-  const p = PEOPLE.find(x => x.id === state.view);
-  appEl.innerHTML = p ? renderPerson(p) : state.view === 'catalogo' ? renderCatalogo() : renderGeneral();
+  appEl.innerHTML =
+    state.view === 'test' ? renderTest() :
+    state.view === 'mis' ? renderMis() :
+    state.view === 'catalogo' ? renderCatalogo() :
+    renderGeneral();
   appEl.querySelectorAll('.card').forEach((c, i) => { c.style.animationDelay = Math.min(i * 70, 500) + 'ms'; });
 }
 
@@ -715,6 +728,8 @@ function openEx(exId) {
   const e = EX[exId];
   if (!e) return;
   const steps = (e.steps || []).map(s => '<li>' + esc(s) + '</li>').join('');
+  const t = state.addTarget;
+  const ruts = todasRutinas();
   modalRoot.innerHTML =
     '<div class="modal-bg" data-close-bg><div class="modal" role="dialog" aria-modal="true" aria-label="' + esc(e.n) + '">' +
     '<div class="modal-head"><h3>' + esc(e.n) + '</h3><button class="modal-close" data-close aria-label="Cerrar">✕</button></div>' +
@@ -727,8 +742,9 @@ function openEx(exId) {
     '<img class="modal-gif" src="' + gifURL(e) + '" alt="Animación de ' + esc(e.n) + '">' +
     (steps ? '<ol class="steps">' + steps + '</ol>' : '') +
     '<div class="addto"><h4>Agregar a una rutina</h4>' +
-    '<div class="chips" id="addto-people">' +
-    PEOPLE.map(p => '<button class="chip" data-addp="' + p.id + '" aria-pressed="false">' + p.nombre + '</button>').join('') +
+    (t ? '<button class="btn primary quickadd" data-quickadd>→ Agregar a ' + esc(t.diaNombre) + ' · ' + esc(t.rutNombre) + '</button>' : '') +
+    '<div class="chips" id="addto-ruts">' +
+    ruts.map(r => '<button class="chip" data-addr="' + r.id + '" aria-pressed="false">' + esc(r.nombre) + '</button>').join('') +
     '</div>' +
     '<div class="chips" id="addto-days" hidden></div>' +
     '</div>' +
@@ -752,35 +768,50 @@ function toast(msg) {
   setTimeout(() => t.remove(), 2600);
 }
 
-modalRoot.addEventListener('click', ev => {
-  if (ev.target.closest('[data-close]') || (ev.target.matches('[data-close-bg]'))) { closeModal(); return; }
+function addExTo(rid, dayId, exId) {
+  const rut = getRutina(rid);
+  if (!rut) return false;
+  const day = rut.dias.find(d => d.id === dayId);
+  if (!day || !EX[exId]) return false;
+  day.items.push({ ex: exId, alias: '', sets: '3×12' });
+  saveRutina(rut);
+  toast('Agregado a ' + day.dia + ' de «' + rut.nombre + '»');
+  return true;
+}
 
-  const pbtn = ev.target.closest('[data-addp]');
-  if (pbtn) {
-    const pid = pbtn.dataset.addp;
-    modalRoot.querySelectorAll('[data-addp]').forEach(b => b.setAttribute('aria-pressed', b === pbtn));
+modalRoot.addEventListener('click', ev => {
+  if (ev.target.closest('[data-close]') || ev.target.matches('[data-close-bg]')) { closeModal(); return; }
+
+  const quick = ev.target.closest('[data-quickadd]');
+  if (quick && state.addTarget) {
+    const t = state.addTarget;
+    if (addExTo(t.rid, t.dayId, modalRoot.dataset.ex)) {
+      closeModal();
+      state.addTarget = null;
+      state.view = t.volver;
+      store.set('gf.view', state.view);
+      render();
+    }
+    return;
+  }
+
+  const rbtn = ev.target.closest('[data-addr]');
+  if (rbtn) {
+    const rid = rbtn.dataset.addr;
+    modalRoot.querySelectorAll('[data-addr]').forEach(b => b.setAttribute('aria-pressed', b === rbtn));
     const daysEl = modalRoot.querySelector('#addto-days');
-    const rut = rutinaDe(pid);
-    daysEl.innerHTML = rut.map(d => '<button class="chip" data-addd="' + d.id + '" data-pid="' + pid + '">→ ' + esc(d.dia) + ' · ' + esc(d.titulo) + '</button>').join('');
+    const rut = getRutina(rid);
+    if (!rut) return;
+    daysEl.innerHTML = rut.dias.map(d => '<button class="chip" data-addd="' + d.id + '" data-rid="' + rid + '">→ ' + esc(d.dia) + ' · ' + esc(d.titulo) + '</button>').join('');
     daysEl.hidden = false;
     return;
   }
 
   const dbtn = ev.target.closest('[data-addd]');
   if (dbtn) {
-    const pid = dbtn.dataset.pid;
-    const dayId = dbtn.dataset.addd;
-    const exId = modalRoot.dataset.ex;
-    const rut = rutinaDe(pid);
-    const day = rut.find(d => d.id === dayId);
-    const e = EX[exId];
-    if (day && e) {
-      day.items.push({ ex: exId, alias: '', sets: '3×12' });
-      saveRutina(pid, rut);
-      const p = PEOPLE.find(x => x.id === pid);
-      toast('Agregado a ' + day.dia + ' de ' + (p ? p.nombre : pid));
+    if (addExTo(dbtn.dataset.rid, dbtn.dataset.addd, modalRoot.dataset.ex)) {
       closeModal();
-      if (state.view === pid) render();
+      if (state.view !== 'catalogo') render();
     }
     return;
   }
@@ -793,27 +824,27 @@ tabsEl.addEventListener('click', e => {
   if (!b || b.dataset.view === state.view) return;
   state.view = b.dataset.view;
   state.editDays = {};
+  if (state.view !== 'catalogo') state.addTarget = null;
   store.set('gf.view', state.view);
   render();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-function refreshDay(dayId) {
-  const card = appEl.querySelector('[data-daycard="' + dayId + '"]');
+function refreshDay(key, color) {
+  const card = appEl.querySelector('[data-daycard="' + key + '"]');
   if (!card) return;
   const total = Number(card.dataset.total);
-  const done = store.get(doneKey(state.view, dayId), []).length;
-  const count = card.querySelector('[data-count="' + dayId + '"]');
+  const done = store.get(doneKey(key), []).length;
+  const count = card.querySelector('[data-count="' + key + '"]');
   if (count) count.innerHTML = '<b>' + done + '</b>/' + total;
-  const bar = card.querySelector('[data-bar="' + dayId + '"]');
+  const bar = card.querySelector('[data-bar="' + key + '"]');
   if (bar) bar.style.width = (total ? Math.round(done / total * 100) : 0) + '%';
-  const stamp = card.querySelector('[data-stamp="' + dayId + '"]');
+  const stamp = card.querySelector('[data-stamp="' + key + '"]');
   if (stamp) {
     const complete = total > 0 && done >= total;
     if (complete && stamp.hidden) {
       stamp.hidden = false;
-      const p = PEOPLE.find(x => x.id === state.view);
-      celebrate(card, p ? p.color : '#FF4A24');
+      celebrate(card, color || '#FF4A24');
     } else if (!complete) {
       stamp.hidden = true;
     }
@@ -824,7 +855,7 @@ appEl.addEventListener('input', e => {
   if (e.target.id === 'peso-in') {
     const v = parseFloat(e.target.value);
     if (!isNaN(v) && v >= 40 && v <= 250) {
-      store.set('gf.peso.' + state.view, v);
+      store.set('gf.peso', v);
       const m = macros(v);
       const tiles = appEl.querySelectorAll('.macro b');
       if (tiles.length === 4) {
@@ -833,11 +864,32 @@ appEl.addEventListener('input', e => {
         tiles[2].textContent = m.grasa;
         tiles[3].textContent = m.carbs;
       }
-      const wm = e.target.closest('.card').querySelector('.wm');
-      if (wm) wm.textContent = v;
+    }
+    return;
+  }
+  if (e.target.id === 'cat-q') {
+    state.catQ = e.target.value;
+    state.catLimit = 48;
+    const card = e.target.closest('.card');
+    const list = filtrarCatalogo();
+    const shown = list.slice(0, state.catLimit);
+    card.querySelector('.cat-count').textContent = list.length + ' ejercicios' + (state.catQ ? ' con «' + state.catQ + '»' : '');
+    card.querySelector('.cat-grid').innerHTML = catGridHTML(list, shown);
+    const moreRow = card.querySelector('.more-row');
+    if (moreRow) moreRow.remove();
+    if (list.length > shown.length) {
+      const div = document.createElement('div');
+      div.className = 'more-row';
+      div.innerHTML = '<button class="btn" data-more>Mostrar más (' + (list.length - shown.length) + ' restantes)</button>';
+      card.querySelector('.cat-grid').after(div);
     }
   }
 });
+
+function keyParts(key) {
+  const i = key.indexOf('.');
+  return [key.slice(0, i), key.slice(i + 1)];
+}
 
 appEl.addEventListener('click', e => {
   const open = e.target.closest('[data-open]');
@@ -846,30 +898,32 @@ appEl.addEventListener('click', e => {
   const chk = e.target.closest('.check');
   if (chk) {
     const li = chk.closest('.ex');
-    const dayId = li.dataset.day;
+    const key = li.dataset.day;
     const idx = Number(li.dataset.idx);
-    const key = doneKey(state.view, dayId);
-    let arr = store.get(key, []);
+    const k = doneKey(key);
+    let arr = store.get(k, []);
     if (arr.includes(idx)) arr = arr.filter(i => i !== idx); else arr.push(idx);
-    store.set(key, arr);
+    store.set(k, arr);
     li.classList.toggle('done');
     chk.setAttribute('aria-pressed', li.classList.contains('done'));
-    refreshDay(dayId);
+    const rut = getRutina(keyParts(key)[0]);
+    refreshDay(key, rut ? rut.color : null);
     return;
   }
 
   const setsBtn = e.target.closest('[data-sets]');
   if (setsBtn) {
     const li = setsBtn.closest('.ex');
-    const dayId = li.dataset.day;
+    const [rid, dayId] = keyParts(li.dataset.day);
     const idx = Number(li.dataset.idx);
-    const rut = rutinaDe(state.view);
-    const day = rut.find(d => d.id === dayId);
-    if (!day) return;
+    const rut = getRutina(rid);
+    if (!rut) return;
+    const day = rut.dias.find(d => d.id === dayId);
+    if (!day || !day.items[idx]) return;
     const nuevo = prompt('Series × reps para «' + (day.items[idx].alias || (EX[day.items[idx].ex] || {}).n || '') + '»', day.items[idx].sets);
     if (nuevo && nuevo.trim()) {
       day.items[idx].sets = nuevo.trim();
-      saveRutina(state.view, rut);
+      saveRutina(rut);
       setsBtn.textContent = nuevo.trim();
     }
     return;
@@ -877,8 +931,8 @@ appEl.addEventListener('click', e => {
 
   const editBtn = e.target.closest('[data-edit]');
   if (editBtn) {
-    const dayId = editBtn.dataset.edit;
-    state.editDays[dayId] = !state.editDays[dayId];
+    const key = editBtn.dataset.edit;
+    state.editDays[key] = !state.editDays[key];
     render();
     return;
   }
@@ -886,19 +940,20 @@ appEl.addEventListener('click', e => {
   const mvBtn = e.target.closest('[data-mv]');
   if (mvBtn) {
     const li = mvBtn.closest('.ex');
-    const dayId = li.dataset.day;
+    const [rid, dayId] = keyParts(li.dataset.day);
     const idx = Number(li.dataset.idx);
     const dir = Number(mvBtn.dataset.mv);
-    const rut = rutinaDe(state.view);
-    const day = rut.find(d => d.id === dayId);
+    const rut = getRutina(rid);
+    if (!rut) return;
+    const day = rut.dias.find(d => d.id === dayId);
     if (!day) return;
     const j = idx + dir;
     if (j < 0 || j >= day.items.length) return;
     const tmp = day.items[idx];
     day.items[idx] = day.items[j];
     day.items[j] = tmp;
-    saveRutina(state.view, rut);
-    store.del(doneKey(state.view, dayId));
+    saveRutina(rut);
+    store.del(doneKey(li.dataset.day));
     render();
     return;
   }
@@ -906,32 +961,108 @@ appEl.addEventListener('click', e => {
   const rmBtn = e.target.closest('[data-rm]');
   if (rmBtn) {
     const li = rmBtn.closest('.ex');
-    const dayId = li.dataset.day;
+    const [rid, dayId] = keyParts(li.dataset.day);
     const idx = Number(li.dataset.idx);
-    const rut = rutinaDe(state.view);
-    const day = rut.find(d => d.id === dayId);
+    const rut = getRutina(rid);
+    if (!rut) return;
+    const day = rut.dias.find(d => d.id === dayId);
     if (!day) return;
     day.items.splice(idx, 1);
-    saveRutina(state.view, rut);
-    store.del(doneKey(state.view, dayId));
+    saveRutina(rut);
+    store.del(doneKey(li.dataset.day));
     render();
     return;
   }
 
   const addBtn = e.target.closest('[data-add]');
   if (addBtn) {
+    const [rid, dayId] = keyParts(addBtn.dataset.add);
+    const rut = getRutina(rid);
+    const day = rut && rut.dias.find(d => d.id === dayId);
+    if (!rut || !day) return;
+    state.addTarget = { rid, dayId, rutNombre: rut.nombre, diaNombre: day.dia, volver: state.view };
     state.view = 'catalogo';
     store.set('gf.view', 'catalogo');
     render();
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    toast('Elige un ejercicio y agrégalo a tu rutina');
     return;
   }
 
-  const resetBtn = e.target.closest('[data-reset-rutina]');
-  if (resetBtn) {
-    if (confirm('¿Volver a la rutina original? Se pierden tus cambios de ejercicios.')) {
-      store.del('gf.rutina.' + state.view);
+  const renDia = e.target.closest('[data-ren-dia]');
+  if (renDia) {
+    const card = renDia.closest('[data-daycard]');
+    if (!card || !card.classList.contains('edit-on')) return;
+    const [rid, dayId] = keyParts(card.dataset.daycard);
+    const rut = getRutina(rid);
+    const day = rut && rut.dias.find(d => d.id === dayId);
+    if (!day) return;
+    const nuevo = prompt('Etiqueta del día (ej. Lunes, Día 1...)', day.dia);
+    if (nuevo && nuevo.trim()) { day.dia = nuevo.trim(); saveRutina(rut); render(); }
+    return;
+  }
+
+  const renTit = e.target.closest('[data-ren-tit]');
+  if (renTit) {
+    const card = renTit.closest('[data-daycard]');
+    if (!card || !card.classList.contains('edit-on')) return;
+    const [rid, dayId] = keyParts(card.dataset.daycard);
+    const rut = getRutina(rid);
+    const day = rut && rut.dias.find(d => d.id === dayId);
+    if (!day) return;
+    const nuevo = prompt('Título del día (ej. Empuje, Pierna...)', day.titulo);
+    if (nuevo && nuevo.trim()) { day.titulo = nuevo.trim(); saveRutina(rut); render(); }
+    return;
+  }
+
+  const nd = e.target.closest('[data-ndias]');
+  if (nd) {
+    state.newDias = Number(nd.dataset.ndias);
+    appEl.querySelectorAll('[data-ndias]').forEach(b => b.setAttribute('aria-pressed', b === nd));
+    return;
+  }
+
+  const crear = e.target.closest('[data-crear-rutina]');
+  if (crear) {
+    const input = appEl.querySelector('#rut-nombre');
+    const nombre = (input && input.value.trim()) || 'Mi rutina';
+    const n = state.newDias || 3;
+    const id = 'r' + Date.now().toString(36);
+    const color = PALETA[misRutinas().length % PALETA.length];
+    const rut = {
+      id, nombre, color,
+      dias: Array.from({ length: n }, (_, i) => ({ id: 'd' + (i + 1), dia: 'Día ' + (i + 1), titulo: 'Entrenamiento ' + (i + 1), items: [] })),
+    };
+    saveRutina(rut);
+    state.editDays[id + '.d1'] = true;
+    render();
+    toast('Rutina «' + nombre + '» creada — agrega ejercicios a cada día');
+    return;
+  }
+
+  const renRut = e.target.closest('[data-ren-rut]');
+  if (renRut) {
+    const rut = getRutina(renRut.dataset.renRut);
+    if (!rut) return;
+    const nuevo = prompt('Nombre de la rutina', rut.nombre);
+    if (nuevo && nuevo.trim()) { rut.nombre = nuevo.trim(); saveRutina(rut); render(); }
+    return;
+  }
+
+  const delRut = e.target.closest('[data-del-rut]');
+  if (delRut) {
+    const rut = getRutina(delRut.dataset.delRut);
+    if (!rut) return;
+    if (confirm('¿Eliminar la rutina «' + rut.nombre + '»? No se puede deshacer.')) {
+      deleteRutina(rut.id);
+      render();
+    }
+    return;
+  }
+
+  const resetTest = e.target.closest('[data-reset-test]');
+  if (resetTest) {
+    if (confirm('¿Restaurar la Rutina Test a su estado original?')) {
+      deleteRutina('test');
       state.editDays = {};
       render();
     }
@@ -951,32 +1082,6 @@ appEl.addEventListener('click', e => {
     state.catLimit = 48;
     render();
     return;
-  }
-});
-
-appEl.addEventListener('input', e => {
-  if (e.target.id === 'cat-q') {
-    state.catQ = e.target.value;
-    state.catLimit = 48;
-    const card = e.target.closest('.card');
-    const list = filtrarCatalogo();
-    const shown = list.slice(0, state.catLimit);
-    card.querySelector('.cat-count').textContent = list.length + ' ejercicios' + (state.catQ ? ' con «' + state.catQ + '»' : '');
-    card.querySelector('.cat-grid').innerHTML = shown.map(x =>
-      '<button class="cat-card" data-open="' + x.id + '">' +
-      '<img loading="lazy" src="' + imgURL(x) + '" alt="">' +
-      '<span class="cc-body"><span class="cc-name">' + esc(x.n) + '</span>' +
-      '<span class="cc-meta">' + esc(muscNombre(x.t)) + ' · ' + esc(eqNombre(x.eq)) + '</span></span>' +
-      '</button>'
-    ).join('');
-    const moreRow = card.querySelector('.more-row');
-    if (moreRow) moreRow.remove();
-    if (list.length > shown.length) {
-      const div = document.createElement('div');
-      div.className = 'more-row';
-      div.innerHTML = '<button class="btn" data-more>Mostrar más (' + (list.length - shown.length) + ' restantes)</button>';
-      card.querySelector('.cat-grid').after(div);
-    }
   }
 });
 

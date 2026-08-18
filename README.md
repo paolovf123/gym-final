@@ -6,15 +6,18 @@ calculados por peso.
 
 ## Qué tiene
 
-- **Rutinas 100% personalizables por persona** (Pedro, Paolo, GayKiss, Cassini,
-  Fixer): agregar, quitar, reordenar y cambiar series/reps de cada ejercicio.
-  Viene con una plantilla inicial de 3 días (Martes / Jueves / Sábado) y se
-  puede restaurar en cualquier momento.
+- **Rutina Test**: una rutina de ejemplo (empuje / jalón / pierna) para probar
+  todo — checks, edición, series, animaciones. Se puede modificar y restaurar.
+- **Creador de rutinas** («Mis rutinas»): eliges nombre y cantidad de días
+  (1–7), y luego armas cada día con ejercicios del catálogo. Cada día tiene
+  etiqueta y título renombrables; los ejercicios se agregan, quitan, reordenan
+  y sus series se editan al tocarlas. Las rutinas se pueden renombrar y
+  eliminar.
 - **Catálogo de 1299 ejercicios por grupo muscular** (pecho, espalda, hombros,
   brazos, antebrazos, piernas, pantorrillas, core, cardio), con buscador. Cada
   ejercicio tiene animación GIF, músculo objetivo, equipamiento e instrucciones
-  paso a paso en español.
-- **Macros por persona**, recalculados al editar el peso:
+  paso a paso en español, y un flujo para agregarlo a cualquier rutina y día.
+- **Macros** con peso editable, recalculados al instante:
   - Proteína = peso × 2 (g)
   - Calorías = proteína × 14 (kcal)
   - Grasas = peso × 0.7 (g)
